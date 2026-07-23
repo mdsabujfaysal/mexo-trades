@@ -1,0 +1,132 @@
+---
+---
+
+<section id="home" class="relative overflow-hidden bg-white">
+  <svg
+    class="pointer-events-none absolute inset-x-0 top-0 h-full w-full opacity-[0.08]"
+    viewBox="0 0 1200 500"
+    fill="none"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+    focusable="false"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M0 420 L120 380 L240 400 L360 300 L480 340 L600 220 L720 260 L840 140 L960 180 L1080 60 L1200 100"
+      stroke="url(#heroLine)"
+      stroke-width="4"
+      fill="none"
+    />
+    <defs>
+      <linearGradient id="heroLine" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#1D4ED8" />
+        <stop offset="100%" stop-color="#059669" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 top-24 -z-10 mx-auto h-72 w-72 rounded-full bg-gradient-to-br from-amber-300/40 via-orange-300/30 to-rose-200/30 blur-3xl md:h-96 md:w-96"
+  >
+  </div>
+
+  <div id="hero-animate" class="relative mx-auto max-w-5xl px-6 py-20 text-center md:py-28">
+    <p class="hero-reveal inline-flex translate-y-10 items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-bold tracking-[0.15em] text-blue-700 opacity-0 shadow-[0_0_15px_3px_rgba(29,78,216,0.25)] transition-all duration-700 delay-700 ease-out">
+      MEXO MENTORSHIP PROGRAM
+      <svg class="h-4 w-4 flex-none" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="10" cy="10" r="10" fill="#2563EB" />
+        <path d="M6 10.3 8.5 12.8 14 7.3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </p>
+
+    <h1
+      id="hero-heading"
+      class="mt-4 -translate-x-16 text-4xl font-extrabold tracking-tight text-slate-900 opacity-0 transition-all duration-700 ease-out sm:text-5xl md:text-6xl"
+    >
+      You're Still Unprofitable?
+    </h1>
+
+    <p class="hero-reveal mt-3 translate-y-10 text-xl font-semibold text-slate-600 opacity-0 transition-all duration-700 delay-700 ease-out sm:text-2xl md:text-3xl">
+      It's Time To <span class="font-serif italic text-blue-700">Become Profitable</span>.
+    </p>
+
+    <p class="hero-reveal mx-auto mt-6 max-w-2xl translate-y-10 text-sm font-medium text-slate-700 opacity-0 transition-all duration-700 delay-700 ease-out">
+      Unlock A Deeper Understanding Of The Markets. Build The Confidence To Achieve Your Trading Goals. Become A Successful Trader.
+    </p>
+
+    <a
+      href="#pricing"
+      class="hero-reveal mt-8 inline-flex translate-y-10 items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 px-8 py-3 text-base font-bold text-white opacity-0 shadow-[0_0_30px_8px_rgba(29,78,216,0.5)] transition-all duration-700 delay-700 ease-out hover:-translate-y-0.5"
+    >
+      Join Mentorship
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
+      </svg>
+    </a>
+
+    <p class="hero-reveal mx-auto mt-10 max-w-2xl translate-y-10 text-xs font-medium text-slate-500 opacity-0 transition-all duration-700 delay-700 ease-out">
+      Take 3 Minutes To Discover The Mexo Mentorship Before You Join.
+    </p>
+
+    <div class="hero-reveal mx-auto mt-3 aspect-video w-full max-w-3xl translate-y-10 overflow-hidden rounded-xl border border-slate-200 opacity-0 shadow-[0_0_40px_10px_rgba(29,78,216,0.15)] transition-all duration-700 delay-700 ease-out">
+      <iframe
+        class="h-full w-full"
+        src="https://www.youtube.com/embed/0pmbNDcINLw"
+        title="MEXO TRADES"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<script>
+  // The rest of the hero (badge, subtitle lines, button, video) fades up
+  // from the bottom, but only starts once the headline's own animation has
+  // finished (the delay-700 class holds each one back for 700ms after the
+  // reveal classes are toggled, matching the headline's animation length).
+  const heroSection = document.getElementById("home");
+  if (heroSection) {
+    const revealEls = heroSection.querySelectorAll(".hero-reveal");
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          revealEls.forEach((el) => {
+            if (entry.isIntersecting) {
+              el.classList.remove("translate-y-10", "opacity-0");
+              el.classList.add("translate-y-0", "opacity-100");
+            } else {
+              el.classList.add("translate-y-10", "opacity-0");
+              el.classList.remove("translate-y-0", "opacity-100");
+            }
+          });
+        });
+      },
+      { threshold: 0.2 }
+    );
+    revealObserver.observe(heroSection);
+  }
+
+  // The main headline gets its own fade-in-from-the-right animation, and it
+  // runs first (no delay) — everything else above waits for it to finish.
+  const headingEl = document.getElementById("hero-heading");
+  if (headingEl) {
+    const headingObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            headingEl.classList.remove("-translate-x-16", "opacity-0");
+            headingEl.classList.add("translate-x-0", "opacity-100");
+          } else {
+            headingEl.classList.add("-translate-x-16", "opacity-0");
+            headingEl.classList.remove("translate-x-0", "opacity-100");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    headingObserver.observe(headingEl);
+  }
+</script>

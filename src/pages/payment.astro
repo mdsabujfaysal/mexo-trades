@@ -1,0 +1,17 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PaymentHeader from "@/components/PaymentHeader.astro";
+import PaymentFlow from "@/components/PaymentFlow.astro";
+import Footer from "@/components/Footer.astro";
+---
+
+<BaseLayout
+  title="Payment | MEXO TRADES"
+  description="Complete your enrollment in the MEXO TRADES mentorship program."
+>
+  <PaymentHeader />
+  <main id="main">
+    <PaymentFlow />
+  </main>
+  <Footer />
+</BaseLayout>

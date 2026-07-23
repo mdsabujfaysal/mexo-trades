@@ -1,0 +1,134 @@
+---
+const navLinks = [
+  { label: "Home", href: "#home" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "Support", href: "#support" },
+  { label: "About", href: "#about" },
+  { label: "FAQ", href: "#faq" },
+];
+---
+
+<footer class="border-t border-slate-800 bg-slate-950 py-12">
+  <div id="footer-animate" class="mx-auto max-w-6xl translate-y-10 px-6 opacity-0 transition-all duration-700 ease-out">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="lg:col-span-2">
+        <p class="text-xl font-extrabold tracking-tight text-white">MEXO TRADES</p>
+        <p class="mt-2 max-w-xs text-sm text-slate-400">
+          Institutional Trading Education &amp; Private Mentorship
+        </p>
+
+        <div class="mt-5 flex items-center gap-3">
+          <a
+            href="https://t.me/MexoTrades"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="MEXO TRADES on Telegram"
+            class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-slate-300 transition-colors hover:bg-blue-600 hover:text-white"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M21.05 3.64 2.98 10.58c-1.24.5-1.23 1.18-.23 1.49l4.63 1.45 1.78 5.42c.22.6.11.84.75.84.5 0 .72-.23.99-.5l2.38-2.3 4.75 3.5c.87.48 1.5.23 1.72-.8L23.9 5.1c.31-1.26-.48-1.83-1.32-1.46Z" />
+            </svg>
+          </a>
+
+          <a
+            href="https://youtube.com/@mexotrades?si=qTl8hDTTpkC3sAW5"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="MEXO TRADES on YouTube"
+            class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-slate-300 transition-colors hover:bg-blue-600 hover:text-white"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.56A3.02 3.02 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.38-.56a3.02 3.02 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.4 3.6Z" />
+            </svg>
+          </a>
+
+          <a
+            href="mailto:mexotrades@gmail.com"
+            aria-label="Email MEXO TRADES"
+            class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-slate-300 transition-colors hover:bg-blue-600 hover:text-white"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5.5h18v13H3v-13Zm0 0 9 7.5 9-7.5" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Navigate</p>
+        <ul class="mt-4 space-y-2.5">
+          {
+            navLinks.map((link) => (
+              <li>
+                <a href={link.href} class="text-sm text-slate-400 transition-colors hover:text-white">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Contact</p>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li>
+            <a href="mailto:mexotrades@gmail.com" class="text-slate-400 transition-colors hover:text-white">
+              mexotrades@gmail.com
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://t.me/MexoTrades"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-slate-400 transition-colors hover:text-white"
+            >
+              Telegram
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://youtube.com/@mexotrades?si=qTl8hDTTpkC3sAW5"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-slate-400 transition-colors hover:text-white"
+            >
+              YouTube
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-10 border-t border-slate-800 pt-6">
+      <p class="max-w-3xl text-xs leading-relaxed text-slate-500">
+        Trading involves substantial risk and may not be suitable for everyone. MEXO TRADES
+        provides educational content only and does not guarantee profits or investment returns.
+      </p>
+      <p class="mt-4 text-xs text-slate-600">© 2026 MEXO TRADES. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Slide-up-and-fade-in animation the first time the footer scrolls into view.
+  const animatedEl = document.getElementById("footer-animate");
+  if (animatedEl) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animatedEl.classList.remove("translate-y-10", "opacity-0");
+            animatedEl.classList.add("translate-y-0", "opacity-100");
+          } else {
+            animatedEl.classList.add("translate-y-10", "opacity-0");
+            animatedEl.classList.remove("translate-y-0", "opacity-100");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(animatedEl);
+  }
+</script>

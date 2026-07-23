@@ -1,0 +1,183 @@
+---
+const navLinks = [
+  { label: "Home", href: "/#home" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "Support", href: "/#support" },
+  { label: "About", href: "/#about" },
+  { label: "FAQ", href: "/#faq" },
+];
+---
+
+<header id="site-header" class="fixed inset-x-0 top-0 z-50 px-4 pt-4">
+  <div class="mx-auto flex max-w-4xl items-center gap-3">
+    <div class="min-w-0 flex-1 rounded-[28px] bg-gradient-to-r from-blue-300/50 via-blue-500/30 to-blue-300/50 p-px shadow-[0_8px_20px_-14px_rgba(15,23,42,0.2)]">
+      <div class="rounded-[26px] bg-blue-50/90 backdrop-blur">
+        <div class="relative z-50 flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
+          <a
+            href="/"
+            class="flex min-w-0 flex-none items-center gap-2 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:gap-3"
+          >
+            <img
+              src="/logo-full.png"
+              alt="MEXO Trades"
+              class="h-11 w-auto flex-none object-contain sm:h-12 md:h-14"
+            />
+          </a>
+
+          <nav aria-label="Primary" class="hidden items-center gap-8 md:flex">
+            {
+              navLinks.map((link) => (
+                <a
+                  href={link.href}
+                  class="rounded-md text-sm font-medium text-slate-600 transition-colors hover:text-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                >
+                  {link.label}
+                </a>
+              ))
+            }
+          </nav>
+
+          <div class="flex flex-none items-center gap-2 sm:gap-3">
+            <a
+              href="/#pricing"
+              class="hidden whitespace-nowrap rounded-lg bg-blue-700 px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 sm:px-5 sm:py-2.5 md:inline-block"
+            >
+              Join Now
+            </a>
+
+            <button
+              type="button"
+              id="mobile-menu-button"
+              aria-expanded="false"
+              aria-controls="mobile-menu"
+              aria-label="Open menu"
+              class="ml-1 flex h-10 w-10 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 md:hidden"
+            >
+              <svg id="icon-open" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <svg
+                id="icon-close"
+                class="hidden h-6 w-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a
+      href="https://telegram.me/MexoGroup"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Contact us on Telegram"
+      class="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-gradient-to-br from-[#2AABEE] to-[#229ED9] shadow-[0_6px_16px_-6px_rgba(42,171,238,0.55)] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+    >
+      <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+        <path d="M21.05 3.6 2.98 10.63c-1.23.49-1.22 1.17-.23 1.47l4.63 1.45 1.79 5.5c.22.6.37.84.75.84.35 0 .5-.16.7-.35l1.94-1.86 4.03 2.97c.75.41 1.28.2 1.47-.7l2.66-12.5c.28-1.1-.42-1.6-1.67-1.05Z" />
+      </svg>
+    </a>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    aria-label="Mobile"
+    class="pointer-events-none fixed inset-0 z-40 flex -translate-x-full flex-col items-start justify-start gap-2 bg-blue-50/80 px-6 pt-28 backdrop-blur-md transition-transform duration-300 ease-in-out md:hidden"
+  >
+    <div class="absolute inset-x-0 top-0 flex items-center justify-between px-4 py-4">
+      <img
+        src="/logo-full.png"
+        alt="MEXO Trades"
+        class="h-14 w-auto flex-none object-contain"
+      />
+      <button
+        type="button"
+        id="mobile-menu-close"
+        aria-label="Close menu"
+        class="flex h-10 w-10 flex-none items-center justify-center rounded-lg text-slate-700 hover:bg-slate-900/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+      >
+        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    {
+      navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="block rounded-md px-2 py-3 text-lg font-medium text-slate-700 hover:bg-slate-900/5 hover:text-blue-700"
+        >
+          {link.label}
+        </a>
+      ))
+    }
+    <a
+      href="/#pricing"
+      class="mt-4 block w-full rounded-lg bg-blue-700 px-6 py-3 text-center text-lg font-semibold text-white shadow-[0_0_25px_6px_rgba(29,78,216,0.45),0_8px_20px_-8px_rgba(29,78,216,0.6)] transition-colors hover:bg-blue-800"
+    >
+      Join Now
+    </a>
+  </nav>
+</header>
+
+<div id="header-spacer"></div>
+
+<script>
+  const menuButton = document.getElementById("mobile-menu-button") as HTMLButtonElement;
+  const mobileMenu = document.getElementById("mobile-menu") as HTMLElement;
+  const mobileMenuClose = document.getElementById("mobile-menu-close") as HTMLButtonElement;
+  const iconOpen = document.getElementById("icon-open") as HTMLElement;
+  const iconClose = document.getElementById("icon-close") as HTMLElement;
+
+  function closeMenu() {
+    mobileMenu.classList.add("-translate-x-full", "pointer-events-none");
+    mobileMenu.classList.remove("translate-x-0", "pointer-events-auto");
+    iconOpen.classList.remove("hidden");
+    iconClose.classList.add("hidden");
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Open menu");
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  function openMenu() {
+    mobileMenu.classList.remove("-translate-x-full", "pointer-events-none");
+    mobileMenu.classList.add("translate-x-0", "pointer-events-auto");
+    iconOpen.classList.add("hidden");
+    iconClose.classList.remove("hidden");
+    menuButton.setAttribute("aria-expanded", "true");
+    menuButton.setAttribute("aria-label", "Close menu");
+    document.body.classList.add("overflow-hidden");
+  }
+
+  menuButton.addEventListener("click", () => {
+    const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  mobileMenuClose.addEventListener("click", closeMenu);
+
+  mobileMenu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  const siteHeader = document.getElementById("site-header") as HTMLElement;
+  const headerSpacer = document.getElementById("header-spacer") as HTMLElement;
+
+  function syncHeaderSpacer() {
+    headerSpacer.style.height = `${siteHeader.offsetHeight}px`;
+  }
+
+  syncHeaderSpacer();
+  window.addEventListener("resize", syncHeaderSpacer);
+</script>

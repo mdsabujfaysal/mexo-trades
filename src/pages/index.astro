@@ -1,0 +1,25 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Hero from "@/components/Hero.astro";
+import Pricing from "@/components/Pricing.astro";
+import Support from "@/components/Support.astro";
+import About from "@/components/About.astro";
+import FAQ from "@/components/FAQ.astro";
+import Footer from "@/components/Footer.astro";
+---
+
+<BaseLayout
+  title="MEXO TRADES | Institutional Trader Education"
+  description="Institutional trader education for disciplined, championship-level performance. Market structure, hidden order flow concepts, and trading psychology mentorship."
+>
+  <Header />
+  <main id="main">
+    <Hero />
+    <Pricing />
+    <Support />
+    <About />
+    <FAQ />
+  </main>
+  <Footer />
+</BaseLayout>
