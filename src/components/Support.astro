@@ -22,6 +22,11 @@ const channels = [
     name: "Email",
     description: "Reach out for detailed inquiries.",
     href: "https://mail.google.com/mail/?view=cm&fs=1&to=mexotrades@gmail.com",
+    // On mobile we try to open the native Gmail app directly instead of a
+    // browser tab. gmailApp is the (undocumented but widely used) Gmail
+    // app deep link; mailFallback is used if the Gmail app isn't installed.
+    gmailApp: "googlegmail:///co?to=mexotrades@gmail.com",
+    mailFallback: "mailto:mexotrades@gmail.com",
     iconBg: "bg-gradient-to-br from-violet-400 to-indigo-600",
     glow: "bg-indigo-400",
     link: "text-indigo-700",
@@ -46,6 +51,9 @@ const channels = [
             href={channel.href}
             target="_blank"
             rel="noopener noreferrer"
+            data-channel={channel.name}
+            data-gmail-app={channel.gmailApp}
+            data-mail-fallback={channel.mailFallback}
             class="group relative flex flex-col items-center overflow-hidden rounded-3xl border border-slate-100 bg-white p-8 text-center shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
           >
             {/* soft blurred glow that blooms in on hover */}
@@ -118,5 +126,33 @@ const channels = [
       { threshold: 0.2 }
     );
     observer.observe(animatedEl);
+  }
+
+  // On mobile devices, open the native Gmail app directly for the Email
+  // channel instead of a mobile browser tab. Desktop keeps the normal
+  // "open Gmail in a new tab" behavior untouched.
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const emailLink = document.querySelector('a[data-channel="Email"]');
+
+  if (isMobile && emailLink instanceof HTMLAnchorElement) {
+    const gmailAppUrl = emailLink.dataset.gmailApp;
+    const mailFallbackUrl = emailLink.dataset.mailFallback;
+
+    emailLink.addEventListener("click", (event) => {
+      if (!gmailAppUrl) return;
+      event.preventDefault();
+
+      // Try to hand off to the installed Gmail app.
+      window.location.href = gmailAppUrl;
+
+      // If the app isn't installed, the browser stays on this page and
+      // nothing happens — after a short wait, fall back to the device's
+      // default mail handler instead of leaving the tap unanswered.
+      setTimeout(() => {
+        if (document.visibilityState === "visible" && mailFallbackUrl) {
+          window.location.href = mailFallbackUrl;
+        }
+      }, 1200);
+    });
   }
 </script>

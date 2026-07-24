@@ -1,0 +1,107 @@
+---
+const YOUTUBE_URL = "https://youtube.com/@mexotrades?si=qTl8hDTTpkC3sAW5";
+---
+
+<section class="bg-white py-16">
+  <div
+    id="youtube-banner-animate"
+    class="mx-auto max-w-5xl translate-y-10 px-6 opacity-0 transition-all duration-700 ease-out"
+  >
+    <div
+      class="relative flex flex-col items-start gap-8 overflow-hidden rounded-2xl border border-emerald-800/40 bg-gradient-to-br from-slate-900 via-[#0a1220] to-black p-10 shadow-[0_0_90px_-15px_rgba(16,185,129,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-14 lg:flex-row lg:items-center lg:justify-between"
+    >
+      <div
+        class="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_15%_15%,rgba(16,185,129,0.16),transparent_55%)]"
+        aria-hidden="true"
+      >
+      </div>
+
+      <svg
+        class="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-25"
+        viewBox="0 0 900 300"
+        preserveAspectRatio="none"
+        fill="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="chart-line-fade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#10b981" stop-opacity="0" />
+            <stop offset="18%" stop-color="#10b981" stop-opacity="0.9" />
+            <stop offset="82%" stop-color="#10b981" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="chart-fill-fade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#10b981" stop-opacity="0.18" />
+            <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0,235 L90,205 L160,220 L230,150 L300,175 L370,110 L440,140 L510,85 L580,115 L650,60 L720,95 L810,45 L900,75 L900,300 L0,300 Z"
+          fill="url(#chart-fill-fade)"
+        />
+        <path
+          d="M0,235 L90,205 L160,220 L230,150 L300,175 L370,110 L440,140 L510,85 L580,115 L650,60 L720,95 L810,45 L900,75"
+          stroke="url(#chart-line-fade)"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+
+      <div class="relative z-10 flex items-start gap-5">
+        <span
+          class="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-red-600/15 text-red-500 shadow-[0_0_20px_-4px_rgba(220,38,38,0.6)]"
+          aria-hidden="true"
+        >
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" focusable="false">
+            <path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.56A3.02 3.02 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.38-.56a3.02 3.02 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.4 3.6Z" />
+          </svg>
+        </span>
+
+        <div>
+          <h2 class="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
+            Not Ready to Join Yet?
+          </h2>
+          <p class="mt-2 max-w-xl text-sm leading-relaxed text-slate-400">
+            Build your trading foundation with our free educational videos before becoming a Mexo
+            Trades member.
+          </p>
+        </div>
+      </div>
+
+      <a
+        href={YOUTUBE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="relative z-10 flex flex-none items-center gap-2 rounded-full bg-emerald-500 px-6 py-3 text-sm font-bold text-slate-950 shadow-[0_8px_24px_-6px_rgba(16,185,129,0.6)] transition-colors hover:bg-emerald-400"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.56A3.02 3.02 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.38-.56a3.02 3.02 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.4 3.6Z" />
+        </svg>
+        Explore Free Content
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Slide-up-and-fade-in animation the first time this section scrolls into view.
+  const animatedEl = document.getElementById("youtube-banner-animate");
+  if (animatedEl) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animatedEl.classList.remove("translate-y-10", "opacity-0");
+            animatedEl.classList.add("translate-y-0", "opacity-100");
+          } else {
+            animatedEl.classList.add("translate-y-10", "opacity-0");
+            animatedEl.classList.remove("translate-y-0", "opacity-100");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(animatedEl);
+  }
+</script>

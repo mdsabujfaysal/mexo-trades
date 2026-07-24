@@ -750,14 +750,25 @@
   }
   .submit-doc-btn .spinner {
     display: inline-block;
-    width: 1rem;
-    height: 1rem;
-    margin-right: 0.5rem;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-top-color: #fff;
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-right: 0.55rem;
+    vertical-align: -3px;
     border-radius: 9999px;
-    vertical-align: -2px;
-    animation: spin 0.7s linear infinite;
+    background: conic-gradient(
+      from 0deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.55) 55%,
+      #ffffff 100%
+    );
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
+    animation: spin 0.85s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  }
+  .submit-doc-btn .spin-emoji {
+    display: inline-block;
+    margin-left: 0.35rem;
+    animation: spin 1s linear infinite;
   }
   @keyframes spin {
     to {
@@ -855,13 +866,19 @@
 </style>
 
 <script>
-  // API base URL for the backend. In production (same-origin / reverse
-  // proxy) this stays empty and requests go to the relative "/api/..."
-  // path as before. For local development, where the Astro dev server
-  // (e.g. :4321) and the Express backend (e.g. :5000) run on different
-  // ports, set PUBLIC_API_BASE_URL in the frontend's .env, e.g.:
-  //   PUBLIC_API_BASE_URL=http://localhost:5000
-  const API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL || "";
+  // Frontend-only submission targets. There is no backend: the payment
+  // screenshot + caption are sent directly from the browser to Telegram
+  // (primary) and Discord (backup) in parallel. Submission counts as a
+  // success as soon as either one accepts the message.
+  //
+  // NOTE: because this project has no server, these values are visible
+  // to anyone who inspects the page source or network requests. That is
+  // an inherent trade-off of a frontend-only architecture, not a bug.
+  const TELEGRAM_BOT_TOKEN = "8966048043:AAFzEdXs0nwv_ycpeYECqKPgiBpi6P5xuok";
+  const TELEGRAM_CHAT_ID = "8564033086";
+  const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
+  const DISCORD_WEBHOOK_URL =
+    "https://discord.com/api/webhooks/1529924194408726629/2LuY0lMrZuuIUEg3qE90O9piPVn-9jmNE4G_0Bu7ACMO18ZPSImzhwa4oD6cGP-kcYEL";
 
   const STEP_TITLES: Record<number, string> = {
     1: "Mentorship Plan",
@@ -1430,7 +1447,9 @@
       `${labels[1]}: ${senderInput2.value}`,
     ].join("\n");
 
-    // This summary is prepared for the backend to relay to Telegram for verification.
+    // This summary is logged for local debugging; the actual Telegram/Discord
+    // caption is built separately in buildSubmissionCaption() once the
+    // screenshot is attached in step 6.
     console.log(summary);
 
     enrollmentData = {
@@ -1588,48 +1607,172 @@
     successPopupOverlay.classList.remove("hidden");
   }
 
-  submitDocumentationBtn.addEventListener("click", async () => {
-    if (submitDocumentationBtn.disabled || !proofFile || !enrollmentData) return;
-
-    submitDocumentationBtn.disabled = true;
-    submitDocumentationBtn.classList.add("pointer-events-none");
-    submitDocBtnLabel.innerHTML = '<span class="spinner"></span>Submitting...';
-    clearUploadError();
-
-    const formData = new FormData();
-    Object.entries(enrollmentData).forEach(([key, value]) => {
-      formData.append(key, value);
+  function buildSubmissionCaption(data: Record<string, string>): string {
+    const submissionTime = new Date().toLocaleString("en-US", {
+      dateStyle: "medium",
+      timeStyle: "short",
     });
-    formData.append("screenshot", proofFile, proofFile.name);
 
+    return [
+      "───────────────────────",
+      "🟢 NEW PAYMENT SUBMISSION",
+      "───────────────────────",
+      "",
+      `📦 Plan: ${data.plan}`,
+      `👤 Full Name: ${data.fullName}`,
+      `📧 Email: ${data.email}`,
+      `📱 Phone Number: ${data.phone}`,
+      `💬 Telegram Username: ${data.telegram}`,
+      `🌍 Country: ${data.country}`,
+      `💳 Payment Method: ${data.paymentMethod}`,
+      `💰 Amount: ${data.amount}`,
+      `📲 Sender Number: ${data.senderNumber}`,
+      `🧾 Transaction ID: ${data.transactionId}`,
+      `🕒 Submission Time: ${submissionTime}`,
+    ].join("\n");
+  }
+
+  // Timing rules (per student's request):
+  // - Each destination gets up to BASE_TIMEOUT_MS (1 minute) to respond, so
+  //   slow/rural connections aren't cut off early.
+  // - The moment one destination succeeds, the still-pending one is not
+  //   forced to wait out the rest of its minute — it gets only GRACE_MS
+  //   (30s) more to also get the message through, then it is stopped.
+  const BASE_TIMEOUT_MS = 60000;
+  const GRACE_MS = 30000;
+
+  async function sendToTelegram(file: File, caption: string, signal: AbortSignal): Promise<boolean> {
     try {
-      // Send the full enrollment data and payment screenshot to the backend/API
-      // for manual verification.
-      const response = await fetch(`${API_BASE_URL}/api/enrollment/payment-proof`, {
+      const formData = new FormData();
+      formData.append("chat_id", TELEGRAM_CHAT_ID);
+      formData.append("caption", caption);
+      formData.append("photo", file, file.name);
+
+      const response = await fetch(TELEGRAM_API_URL, {
         method: "POST",
         body: formData,
+        signal,
       });
 
-      let result: { success?: boolean; message?: string } = {};
+      let result: { ok?: boolean; description?: string } = {};
       try {
         result = await response.json();
       } catch {
-        // Non-JSON response — fall through to the generic error below.
+        // Non-JSON response — treated as a failure below.
       }
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || `Submission failed (status ${response.status}).`);
+      if (!response.ok || !result.ok) {
+        // Check the browser console (F12) for this line to see exactly why
+        // Telegram rejected the submission (e.g. wrong token/chat id).
+        console.error("Telegram rejected submission:", response.status, result.description || result);
+        return false;
       }
-
-      openSuccessPopup();
-      submitDocBtnLabel.textContent = "Submit Documentation";
-      submitDocumentationBtn.disabled = false;
-      submitDocumentationBtn.classList.remove("pointer-events-none");
+      return true;
     } catch (error) {
-      // Any failure (network issue, backend/connector problem, etc.) stays
-      // in the "Submitting..." loading state rather than surfacing a raw
-      // error to the customer. Logged to the console for debugging.
-      console.error("Payment proof submission failed:", error);
+      console.error("Telegram submission failed (network/timeout):", error);
+      return false;
+    }
+  }
+
+  async function sendToDiscord(file: File, caption: string, signal: AbortSignal): Promise<boolean> {
+    try {
+      const formData = new FormData();
+      formData.append("payload_json", JSON.stringify({ content: caption }));
+      formData.append("file", file, file.name);
+
+      const response = await fetch(DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        body: formData,
+        signal,
+      });
+
+      if (!response.ok) {
+        const text = await response.text().catch(() => "");
+        // Check the browser console (F12) for this line to see exactly why
+        // Discord rejected the submission (e.g. invalid/expired webhook).
+        console.error("Discord rejected submission:", response.status, text);
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error("Discord submission failed (network/timeout):", error);
+      return false;
+    }
+  }
+
+  function setSubmitDocumentationSubmitting(submitting: boolean) {
+    submitDocumentationBtn.disabled = submitting;
+    submitDocumentationBtn.classList.toggle("pointer-events-none", submitting);
+    submitDocBtnLabel.innerHTML = submitting
+      ? 'Submitting... <span class="spin-emoji">♻️</span>'
+      : "Submit Documentation";
+  }
+
+  submitDocumentationBtn.addEventListener("click", async () => {
+    if (submitDocumentationBtn.disabled || !proofFile || !enrollmentData) return;
+
+    setSubmitDocumentationSubmitting(true);
+    clearUploadError();
+
+    try {
+      const caption = buildSubmissionCaption(enrollmentData);
+
+      const telegramController = new AbortController();
+      const discordController = new AbortController();
+      const telegramTimer = setTimeout(() => telegramController.abort(), BASE_TIMEOUT_MS);
+      const discordTimer = setTimeout(() => discordController.abort(), BASE_TIMEOUT_MS);
+
+      let popupShown = false;
+      function showSuccessOnce() {
+        if (!popupShown) {
+          popupShown = true;
+          openSuccessPopup();
+          setSubmitDocumentationSubmitting(false);
+        }
+      }
+
+      const telegramPromise = sendToTelegram(proofFile, caption, telegramController.signal).then((ok) => {
+        clearTimeout(telegramTimer);
+        if (ok) {
+          showSuccessOnce();
+          // Telegram is done — give Discord only a short grace window more,
+          // instead of making it wait out its own full minute.
+          clearTimeout(discordTimer);
+          setTimeout(() => discordController.abort(), GRACE_MS);
+        }
+        return ok;
+      });
+
+      const discordPromise = sendToDiscord(proofFile, caption, discordController.signal).then((ok) => {
+        clearTimeout(discordTimer);
+        if (ok) {
+          showSuccessOnce();
+          // Discord is done — give Telegram only a short grace window more,
+          // instead of making it wait out its own full minute.
+          clearTimeout(telegramTimer);
+          setTimeout(() => telegramController.abort(), GRACE_MS);
+        }
+        return ok;
+      });
+
+      // Primary: Telegram. Backup: Discord. Submission counts as a success
+      // the moment either one accepts it; the other keeps trying briefly in
+      // the background so it can still land in both places when possible.
+      const [telegramOk, discordOk] = await Promise.all([telegramPromise, discordPromise]);
+
+      if (!telegramOk && !discordOk) {
+        // Both destinations failed — surface an error and let the student retry
+        // without losing their selected screenshot. Open DevTools (F12) →
+        // Console tab to see exactly why Telegram/Discord rejected it.
+        showUploadError("Submission failed. Please check your connection and try again.");
+        setSubmitDocumentationSubmitting(false);
+      } else {
+        showSuccessOnce();
+      }
+    } catch (error) {
+      console.error("Unexpected submission error:", error);
+      showUploadError("Submission failed. Please check your connection and try again.");
+      setSubmitDocumentationSubmitting(false);
     }
   });
 
