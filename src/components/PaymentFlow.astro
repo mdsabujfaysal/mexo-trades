@@ -214,6 +214,24 @@
           <p id="country-error" class="mt-1 hidden text-xs font-medium text-red-600">Please enter your country.</p>
         </div>
 
+        <div>
+          <label class="block text-sm font-semibold text-slate-700" for="tradingExperience">Trading Experience</label>
+          <select
+            id="tradingExperience"
+            name="tradingExperience"
+            required
+            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
+          >
+            <option value="" disabled selected>Select Your Trading Experience</option>
+            <option value="I'm Completely New">I'm Completely New</option>
+            <option value="0–6 Months">0–6 Months</option>
+            <option value="6 Months–2 Years">6 Months–2 Years</option>
+            <option value="2–5 Years">2–5 Years</option>
+            <option value="5+ Years">5+ Years</option>
+          </select>
+          <p id="tradingExperience-error" class="mt-1 hidden text-xs font-medium text-red-600">Please select your trading experience.</p>
+        </div>
+
         <label class="flex items-start gap-3 pt-2 text-sm text-slate-700">
           <input
             id="confirm-correct"
@@ -1002,6 +1020,7 @@
   const phoneInput = document.getElementById("phone") as HTMLInputElement;
   const telegramInput = document.getElementById("telegram") as HTMLInputElement;
   const countryInput = document.getElementById("country") as HTMLInputElement;
+  const tradingExperienceInput = document.getElementById("tradingExperience") as HTMLSelectElement;
 
   const isValidEmail = (value: string) => /^[^\s@]+@gmail\.com$/i.test(value.trim());
   const isValidPhone = (value: string) => /^\d{11}$/.test(value.trim());
@@ -1012,6 +1031,7 @@
     { input: phoneInput, errorId: "phone-error", isValid: isValidPhone },
     { input: telegramInput, errorId: "telegram-error", isValid: (v: string) => v.trim().length > 0 },
     { input: countryInput, errorId: "country-error", isValid: (v: string) => v.trim().length > 0 },
+    { input: tradingExperienceInput, errorId: "tradingExperience-error", isValid: (v: string) => v.trim().length > 0 },
   ];
 
   const setFieldError = (input: HTMLInputElement, errorId: string, hasError: boolean) => {
@@ -1043,14 +1063,16 @@
   };
 
   infoFields.forEach(({ input, errorId }) => {
-    input.addEventListener("input", () => {
+    const revalidate = () => {
       if (confirmCorrect.checked) {
         const allValid = validateAllFields(true);
         setContinueEnabled(allValid);
       } else {
         setFieldError(input, errorId, false);
       }
-    });
+    };
+    input.addEventListener("input", revalidate);
+    input.addEventListener("change", revalidate);
   });
 
   confirmCorrect.addEventListener("change", () => {
@@ -1430,6 +1452,7 @@
     const phone = (document.getElementById("phone") as HTMLInputElement).value;
     const telegram = (document.getElementById("telegram") as HTMLInputElement).value;
     const country = (document.getElementById("country") as HTMLInputElement).value;
+    const tradingExperience = (document.getElementById("tradingExperience") as HTMLSelectElement).value;
 
     const amountText =
       method.category === "mobile" || method.category === "bank"
@@ -1446,6 +1469,7 @@
       `Phone Number: ${phone}`,
       `Telegram Username: ${telegram}`,
       `Country: ${country}`,
+      `Trading Experience: ${tradingExperience}`,
       `Payment Method: ${method.name}`,
       `Amount: ${amountText}`,
       `${labels[0]}: ${senderInput1.value}`,
@@ -1464,6 +1488,7 @@
       phone,
       telegram,
       country,
+      tradingExperience,
       paymentMethod: method.name,
       amount: amountText,
       senderLabel1: labels[0],
@@ -1631,6 +1656,7 @@
       `📱 Phone Number: ${data.phone}`,
       `💬 Telegram Username: ${data.telegram}`,
       `🌍 Country: ${data.country}`,
+      `📊 Trading Experience: ${data.tradingExperience}`,
       `💳 Payment Method: ${data.paymentMethod}`,
       `💰 Amount: ${data.amount}`,
       `📲 ${data.senderLabel1}: ${data.senderNumber}`,
