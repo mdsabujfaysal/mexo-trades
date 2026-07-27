@@ -1,18 +1,7 @@
 ---
-const standardFeatures = [
-  "8 Live Master Classes",
-  "8 Live Support Sessions",
-  "7 Days Extra Support",
-  "Trading Foundation",
-  "Technical Trading Concepts",
-  "Entry Framework",
-  "Trade Planning",
-  "Community Access",
-];
-
 const premiumFeatures = [
-  "24 Live Master Classes",
-  "24 Live Support Sessions",
+  "18 Live Master Classes",
+  "18 Live Support Sessions",
   "One-to-One Support",
   "Unlock Core Trading Concepts",
   "Advanced Market Concepts",
@@ -53,56 +42,8 @@ const premiumFeatures = [
         </span>
       </div>
 
-      <div class="mx-auto mt-24 grid max-w-4xl items-stretch gap-8 md:grid-cols-2">
-        <div class="relative flex flex-col rounded-3xl bg-white p-7 shadow-[0_20px_60px_-15px_rgba(29,78,216,0.25)]">
-          <span class="absolute -top-3 left-8 rounded-full bg-blue-700 px-3 py-1 text-xs font-bold text-white">
-            Most Popular
-          </span>
-
-          <h3 class="text-xl font-bold text-slate-900">Standard</h3>
-          <p class="mt-1 text-sm text-slate-500">Build Strong Foundations</p>
-
-          <div class="mt-6 flex items-baseline gap-1">
-            <span class="text-5xl font-extrabold text-slate-900">$100</span>
-            <span class="text-base font-medium text-slate-500">/1 Month</span>
-          </div>
-
-          <a
-            href="/payment?plan=standard"
-            class="mt-6 block rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3 text-center text-sm font-bold text-white shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-transform hover:-translate-y-0.5"
-          >
-            Join Standard Mentorship
-          </a>
-
-          <ul class="mt-8 flex-1 space-y-4">
-            {
-              standardFeatures.map((feature) => (
-                <li class="flex items-center gap-3 text-sm text-slate-600">
-                  <span class="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-blue-50 text-blue-700">
-                    <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false">
-                      <path
-                        fill-rule="evenodd"
-                        d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42L8.5 12.08l6.79-6.79a1 1 0 011.41 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                  <span class="inline-flex items-center gap-1.5">
-                    {feature}
-                    {feature === "7 Days Extra Support" && (
-                      <svg class="h-4 w-4 flex-none" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                        <circle cx="10" cy="10" r="10" fill="#2563EB" />
-                        <path d="M6 10.3 8.5 12.8 14 7.3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                      </svg>
-                    )}
-                  </span>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-
-        <div class="relative z-10 flex flex-col rounded-3xl bg-gradient-to-br from-blue-600 to-emerald-500 p-7 text-white shadow-[0_25px_70px_-15px_rgba(5,150,105,0.5)] md:-translate-y-6 md:scale-105">
+      <div class="mx-auto mt-24 flex max-w-md items-stretch justify-center">
+        <div class="relative z-10 flex flex-col rounded-3xl bg-gradient-to-br from-blue-600 to-emerald-500 p-7 text-white shadow-[0_25px_70px_-15px_rgba(5,150,105,0.5)]">
           <span class="absolute -top-3 left-8 rounded-full bg-white px-3 py-1 text-xs font-bold text-emerald-700">
             PRO
           </span>
@@ -111,8 +52,8 @@ const premiumFeatures = [
           <p class="mt-1 text-sm text-blue-50">Unlock Core Trading Concepts</p>
 
           <div class="mt-6 flex items-baseline gap-1">
-            <span class="text-5xl font-extrabold text-white">$250</span>
-            <span class="text-base font-medium text-blue-100">/3 Months</span>
+            <span class="text-5xl font-extrabold text-white">$149</span>
+            <span class="text-base font-medium text-blue-100">/2 Months</span>
           </div>
 
           <a
