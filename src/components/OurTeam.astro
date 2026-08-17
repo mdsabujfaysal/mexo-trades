@@ -1,0 +1,84 @@
+---
+// Our Team section — standalone component, matching the About section's design.
+// Cards link to individual mentor profile pages at /team/{slug},
+// rendered by src/pages/team/*.astro using src/components/TeamProfile.astro.
+//
+// Mentor data lives in src/data/team.ts (single source of truth, shared with
+// the individual profile pages) — edit that file to add/change mentors.
+import { team } from "@/data/team";
+---
+
+<section id="our-team" class="bg-white py-14">
+  <div id="team-animate" class="mx-auto max-w-5xl translate-y-10 px-6 opacity-0 transition-all duration-700 ease-out">
+    <div class="text-center">
+      <p class="text-xs font-bold uppercase tracking-[0.2em] text-emerald-600">Our Team</p>
+      <h2 class="mx-auto mt-2 max-w-xl text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+        The People Behind MEXO
+      </h2>
+    </div>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-3">
+      {
+        team.map((member) => (
+          <a
+            href={`/team/${member.slug}`}
+            class="group relative block aspect-[3/4] overflow-hidden rounded-3xl shadow-sm transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl"
+          >
+            {member.photo ? (
+              <img
+                src={member.photo}
+                alt={member.name}
+                class="absolute inset-0 h-full w-full object-cover object-top"
+              />
+            ) : (
+              <div
+                class="absolute inset-0 flex items-center justify-center"
+                style="background: linear-gradient(135deg, #0f172a 0%, #0f172a 60%, rgba(37,99,235,0.3) 100%);"
+              >
+                <span class="text-2xl font-black tracking-tight text-white">{member.initials}</span>
+              </div>
+            )}
+
+            {/* Base gradient + name, always visible */}
+            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent px-5 pb-5 pt-16">
+              <p class="text-base font-bold text-white transition-opacity duration-300 group-hover:opacity-0">
+                {member.name}
+              </p>
+            </div>
+
+            {/* Hover overlay: darker scrim + View button + name + designation */}
+            <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-900/70 px-5 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <span class="flex h-14 w-14 items-center justify-center rounded-full bg-white/15 text-sm font-semibold text-white ring-1 ring-white/40 backdrop-blur-sm">
+                View
+              </span>
+              <p class="text-base font-bold text-white">{member.name}</p>
+              <p class="text-xs leading-relaxed text-slate-200">{member.designation}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // Slide-up-and-fade-in animation the first time this section scrolls into view.
+  const animatedEl = document.getElementById("team-animate");
+  if (animatedEl) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animatedEl.classList.remove("translate-y-10", "opacity-0");
+            animatedEl.classList.add("translate-y-0", "opacity-100");
+          } else {
+            animatedEl.classList.add("translate-y-10", "opacity-0");
+            animatedEl.classList.remove("translate-y-0", "opacity-100");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(animatedEl);
+  }
+</script>

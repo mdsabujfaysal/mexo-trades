@@ -1,0 +1,529 @@
+---
+// Free Registration Flow — completely separate from PaymentFlow.astro.
+// Reuses the same layout, spacing, colors, typography, validation,
+// animations, popup design, webhook logic, and Telegram integration as the
+// Premium Payment Flow, but only collects information (no payment step).
+---
+
+<section class="relative overflow-hidden bg-slate-50 py-12">
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 top-0 -z-10 mx-auto h-72 w-72 rounded-full bg-gradient-to-br from-blue-300/30 to-emerald-300/30 blur-3xl"
+  >
+  </div>
+
+  <div class="mx-auto max-w-2xl px-6">
+    <h1 class="sr-only">MEXO TRADES Free Access Registration</h1>
+
+    <!-- Progress indicator -->
+    <div class="mb-10">
+      <div class="flex items-center justify-between">
+        <span id="free-progress-label" class="text-xs font-bold uppercase tracking-[0.15em] text-slate-400">
+          Step 1 of 2
+        </span>
+        <span id="free-progress-title" class="text-sm font-bold text-slate-900">Your Information</span>
+      </div>
+      <div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
+        <div
+          id="free-progress-fill"
+          class="h-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 transition-all duration-500 ease-out"
+          style="width: 50%"
+        >
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 1: Your Information -->
+    <div data-free-step="1" class="page-card rounded-[2rem] border border-white/60 bg-white/70 p-6 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.2)] backdrop-blur-xl sm:p-10">
+      <a
+        href="/"
+        class="back-btn mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-900"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back
+      </a>
+
+      <h2 class="text-center text-2xl font-extrabold tracking-tight text-slate-900">Your Information</h2>
+      <p class="mt-2 text-center text-sm text-slate-500">Tell us where to reach you.</p>
+
+      <form id="free-info-form" class="mt-8 space-y-5">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700" for="free-fullName">Full Name</label>
+          <input
+            id="free-fullName"
+            name="fullName"
+            type="text"
+            required
+            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
+          />
+          <p id="free-fullName-error" class="mt-1 hidden text-xs font-medium text-red-600">Please enter your full name.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700" for="free-email">Email Address</label>
+          <input
+            id="free-email"
+            name="email"
+            type="email"
+            required
+            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
+          />
+          <p id="free-email-error" class="mt-1 hidden text-xs font-medium text-red-600">Please enter a valid email ending in @gmail.com (e.g. name@gmail.com).</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700" for="free-phone">Phone Number</label>
+          <input
+            id="free-phone"
+            name="phone"
+            type="tel"
+            required
+            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
+          />
+          <p id="free-phone-error" class="mt-1 hidden text-xs font-medium text-red-600">Phone number must be exactly 11 digits.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700" for="free-telegram">Telegram Username</label>
+          <input
+            id="free-telegram"
+            name="telegram"
+            type="text"
+            placeholder="@username"
+            required
+            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
+          />
+          <p id="free-telegram-error" class="mt-1 hidden text-xs font-medium text-red-600">Please enter your Telegram username.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700" for="free-country">Country</label>
+          <input
+            id="free-country"
+            name="country"
+            type="text"
+            required
+            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
+          />
+          <p id="free-country-error" class="mt-1 hidden text-xs font-medium text-red-600">Please enter your country.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700" for="free-tradingExperience">Trading Experience</label>
+          <select
+            id="free-tradingExperience"
+            name="tradingExperience"
+            required
+            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
+          >
+            <option value="" disabled selected>Select Your Trading Experience</option>
+            <option value="I'm Completely New">I'm Completely New</option>
+            <option value="0–6 Months">0–6 Months</option>
+            <option value="6 Months–2 Years">6 Months–2 Years</option>
+            <option value="2–5 Years">2–5 Years</option>
+            <option value="5+ Years">5+ Years</option>
+          </select>
+          <p id="free-tradingExperience-error" class="mt-1 hidden text-xs font-medium text-red-600">Please select your trading experience.</p>
+        </div>
+
+        <label class="flex items-start gap-3 pt-2 text-sm text-slate-700">
+          <input
+            id="free-confirm-correct"
+            type="checkbox"
+            class="mt-0.5 h-4 w-4 rounded border-slate-300 text-blue-700 focus:ring-blue-700"
+          />
+          I confirm all the information provided is correct.
+        </label>
+
+        <button
+          type="button"
+          id="free-to-step-2"
+          disabled
+          aria-disabled="true"
+          class="w-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3.5 text-sm font-bold text-white opacity-30 shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-all duration-300 pointer-events-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+        >
+          Continue
+        </button>
+      </form>
+    </div>
+
+    <!-- STEP 2: Review Information -->
+    <div data-free-step="2" class="page-card hidden rounded-[2rem] border border-white/60 bg-white/70 p-6 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.2)] backdrop-blur-xl sm:p-10">
+      <button
+        type="button"
+        class="back-btn mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-900"
+        data-free-back-to="1"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back
+      </button>
+
+      <h2 class="text-center text-2xl font-extrabold tracking-tight text-slate-900">Review Information</h2>
+      <p class="mt-2 text-center text-sm text-slate-500">Please confirm your details before sending.</p>
+
+      <dl class="mt-8 space-y-4 rounded-2xl border border-slate-200 bg-white/80 p-6">
+        {
+          [
+            ["Full Name", "review-fullName"],
+            ["Email", "review-email"],
+            ["Phone", "review-phone"],
+            ["Telegram Username", "review-telegram"],
+            ["Country", "review-country"],
+            ["Trading Experience", "review-tradingExperience"],
+          ].map(([label, id]) => (
+            <div class="flex flex-col gap-0.5 border-b border-slate-100 pb-3 last:border-0 last:pb-0 sm:flex-row sm:items-baseline sm:justify-between">
+              <dt class="text-sm font-semibold text-slate-500">{label}</dt>
+              <dd id={id} class="text-sm font-bold text-slate-900 sm:text-right" />
+            </div>
+          ))
+        }
+      </dl>
+
+      <p id="free-send-error" class="mt-3 hidden text-center text-xs font-semibold text-red-600"></p>
+
+      <button
+        type="button"
+        id="free-send-now-btn"
+        class="send-now-btn mt-8 w-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3.5 text-sm font-bold text-white shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+      >
+        <span id="free-send-now-label">Send Now</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Free Registration Success Popup — same component/design as the Payment flow's popup, content only changed -->
+<div id="free-success-popup-overlay" class="success-popup-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="free-success-popup-title">
+  <div id="free-success-popup-card" class="success-popup-card">
+    <div class="success-icon-wrap">
+      <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path class="success-icon-check" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+    <h3 id="free-success-popup-title" class="mt-6 text-center text-xl font-extrabold tracking-tight text-slate-900">
+      Registration Submitted Successfully
+    </h3>
+    <p class="mx-auto mt-3 max-w-sm text-center text-sm leading-relaxed text-slate-600">
+      Your Free Access registration has been submitted successfully. Our team will review your information and contact you soon via Telegram or Email.
+    </p>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <a
+        href="/"
+        class="flex-1 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3 text-center text-sm font-bold text-white shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-transform hover:-translate-y-0.5"
+      >
+        Done
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Same page-in animation used by the Payment flow's .page-card */
+  .page-card {
+    animation: page-in 0.4s ease-out;
+  }
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .send-now-btn {
+    position: relative;
+    overflow: hidden;
+  }
+  .send-now-btn:not(:disabled):hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+  }
+
+  /* Success popup — identical styling contract to PaymentFlow.astro's popup
+     (#success-popup-overlay / #success-popup-card), duplicated here because
+     Astro scopes styles per-component and the Payment flow's <style> block
+     was left untouched. Class names match so any future shared popup
+     component can be swapped in without visual changes. */
+  .success-popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+  }
+  .success-popup-overlay.hidden {
+    display: none;
+  }
+  .success-popup-card {
+    width: 100%;
+    max-width: 26rem;
+    border-radius: 1.75rem;
+    background: white;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 30px 80px -20px rgba(15, 23, 42, 0.45);
+    animation: popup-in 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @keyframes popup-in {
+    from {
+      opacity: 0;
+      transform: scale(0.94) translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  .success-icon-wrap {
+    margin: 0 auto;
+    display: flex;
+    height: 4rem;
+    width: 4rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: linear-gradient(to bottom right, #2563eb, #10b981);
+    box-shadow: 0 12px 30px -10px rgba(16, 185, 129, 0.5);
+  }
+  .success-icon {
+    height: 2rem;
+    width: 2rem;
+    color: white;
+  }
+</style>
+
+<script>
+  import {
+    submitWithFailover,
+    fetchAssetAsFile,
+    isValidEmail,
+    isValidPhone,
+    isNonEmpty,
+  } from "../lib/mexoSubmission";
+
+  let currentFreeStep = 1;
+  const FREE_STEP_TITLES: Record<number, string> = {
+    1: "Your Information",
+    2: "Review Information",
+  };
+
+  const freeStepDivs = document.querySelectorAll<HTMLDivElement>("[data-free-step]");
+  const freeProgressFill = document.getElementById("free-progress-fill") as HTMLDivElement;
+  const freeProgressLabel = document.getElementById("free-progress-label") as HTMLSpanElement;
+  const freeProgressTitle = document.getElementById("free-progress-title") as HTMLSpanElement;
+
+  function goToFreeStep(step: number) {
+    currentFreeStep = step;
+    freeStepDivs.forEach((div) => {
+      div.classList.toggle("hidden", div.dataset.freeStep !== String(step));
+    });
+    freeProgressFill.style.width = `${(step / 2) * 100}%`;
+    freeProgressLabel.textContent = `Step ${step} of 2`;
+    freeProgressTitle.textContent = FREE_STEP_TITLES[step];
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-free-back-to]").forEach((btn) => {
+    btn.addEventListener("click", () => goToFreeStep(Number(btn.dataset.freeBackTo)));
+  });
+
+  /* ---------------------------------------------------------------------
+     STEP 1: Your Information (same validation rules as the Payment flow)
+  --------------------------------------------------------------------- */
+  const confirmCorrect = document.getElementById("free-confirm-correct") as HTMLInputElement;
+  const toStep2Btn = document.getElementById("free-to-step-2") as HTMLButtonElement;
+
+  const fullNameInput = document.getElementById("free-fullName") as HTMLInputElement;
+  const emailInput = document.getElementById("free-email") as HTMLInputElement;
+  const phoneInput = document.getElementById("free-phone") as HTMLInputElement;
+  const telegramInput = document.getElementById("free-telegram") as HTMLInputElement;
+  const countryInput = document.getElementById("free-country") as HTMLInputElement;
+  const tradingExperienceInput = document.getElementById("free-tradingExperience") as HTMLSelectElement;
+
+  const infoFields = [
+    { input: fullNameInput, errorId: "free-fullName-error", isValid: isNonEmpty },
+    { input: emailInput, errorId: "free-email-error", isValid: isValidEmail },
+    { input: phoneInput, errorId: "free-phone-error", isValid: isValidPhone },
+    { input: telegramInput, errorId: "free-telegram-error", isValid: isNonEmpty },
+    { input: countryInput, errorId: "free-country-error", isValid: isNonEmpty },
+    { input: tradingExperienceInput, errorId: "free-tradingExperience-error", isValid: isNonEmpty },
+  ];
+
+  const setFieldError = (input: HTMLInputElement, errorId: string, hasError: boolean) => {
+    const errorEl = document.getElementById(errorId);
+    input.classList.toggle("border-red-500", hasError);
+    input.classList.toggle("focus:border-red-500", hasError);
+    input.classList.toggle("focus:ring-red-500", hasError);
+    input.classList.toggle("border-slate-300", !hasError);
+    input.classList.toggle("focus:border-blue-700", !hasError);
+    input.classList.toggle("focus:ring-blue-700", !hasError);
+    errorEl?.classList.toggle("hidden", !hasError);
+  };
+
+  const validateAllFields = (showErrors: boolean) => {
+    let allValid = true;
+    infoFields.forEach(({ input, errorId, isValid }) => {
+      const valid = isValid(input.value);
+      if (!valid) allValid = false;
+      if (showErrors) setFieldError(input, errorId, !valid);
+    });
+    return allValid;
+  };
+
+  const setContinueEnabled = (enabled: boolean) => {
+    toStep2Btn.disabled = !enabled;
+    toStep2Btn.setAttribute("aria-disabled", String(!enabled));
+    toStep2Btn.classList.toggle("opacity-30", !enabled);
+    toStep2Btn.classList.toggle("pointer-events-none", !enabled);
+  };
+
+  infoFields.forEach(({ input, errorId }) => {
+    const revalidate = () => {
+      if (confirmCorrect.checked) {
+        const allValid = validateAllFields(true);
+        setContinueEnabled(allValid);
+      } else {
+        setFieldError(input, errorId, false);
+      }
+    };
+    input.addEventListener("input", revalidate);
+    input.addEventListener("change", revalidate);
+  });
+
+  confirmCorrect.addEventListener("change", () => {
+    if (confirmCorrect.checked) {
+      const allValid = validateAllFields(true);
+      setContinueEnabled(allValid);
+    } else {
+      setContinueEnabled(false);
+    }
+  });
+
+  type FreeRegistrationData = {
+    fullName: string;
+    email: string;
+    phone: string;
+    telegram: string;
+    country: string;
+    tradingExperience: string;
+  };
+
+  let registrationData: FreeRegistrationData | null = null;
+
+  toStep2Btn.addEventListener("click", () => {
+    if (toStep2Btn.disabled) return;
+
+    registrationData = {
+      fullName: fullNameInput.value.trim(),
+      email: emailInput.value.trim(),
+      phone: phoneInput.value.trim(),
+      telegram: telegramInput.value.trim(),
+      country: countryInput.value.trim(),
+      tradingExperience: tradingExperienceInput.value,
+    };
+
+    (document.getElementById("review-fullName") as HTMLElement).textContent = registrationData.fullName;
+    (document.getElementById("review-email") as HTMLElement).textContent = registrationData.email;
+    (document.getElementById("review-phone") as HTMLElement).textContent = registrationData.phone;
+    (document.getElementById("review-telegram") as HTMLElement).textContent = registrationData.telegram;
+    (document.getElementById("review-country") as HTMLElement).textContent = registrationData.country;
+    (document.getElementById("review-tradingExperience") as HTMLElement).textContent =
+      registrationData.tradingExperience;
+
+    goToFreeStep(2);
+  });
+
+  /* ---------------------------------------------------------------------
+     STEP 2: Review + Send Now
+  --------------------------------------------------------------------- */
+  const sendNowBtn = document.getElementById("free-send-now-btn") as HTMLButtonElement;
+  const sendNowLabel = document.getElementById("free-send-now-label") as HTMLSpanElement;
+  const sendErrorEl = document.getElementById("free-send-error") as HTMLParagraphElement;
+  const successPopupOverlay = document.getElementById("free-success-popup-overlay") as HTMLDivElement;
+
+  function openSuccessPopup() {
+    successPopupOverlay.classList.remove("hidden");
+  }
+
+  function setSendingState(sending: boolean) {
+    sendNowBtn.disabled = sending;
+    sendNowBtn.classList.toggle("pointer-events-none", sending);
+    sendNowLabel.innerHTML = sending ? 'Sending... <span class="spin-emoji">♻️</span>' : "Send Now";
+  }
+
+  function showSendError(message: string) {
+    sendErrorEl.textContent = message;
+    sendErrorEl.classList.remove("hidden");
+  }
+
+  function clearSendError() {
+    sendErrorEl.classList.add("hidden");
+  }
+
+  function buildFreeRegistrationCaption(data: FreeRegistrationData): string {
+    const submissionTime = new Date().toLocaleString("en-US", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+
+    return [
+      "───────────────────────",
+      "🟢 FREE ACCESS REGISTRATION",
+      "───────────────────────",
+      "",
+      "📦 Plan: Free Access",
+      `👤 Full Name: ${data.fullName}`,
+      `📧 Email: ${data.email}`,
+      `📱 Phone: ${data.phone}`,
+      `💬 Telegram: ${data.telegram}`,
+      `🌍 Country: ${data.country}`,
+      `📊 Trading Experience: ${data.tradingExperience}`,
+      "📝 Registration Type: Free Registration",
+      `🕒 Submission Time: ${submissionTime}`,
+    ].join("\n");
+  }
+
+  sendNowBtn.addEventListener("click", async () => {
+    if (sendNowBtn.disabled || !registrationData) return;
+
+    setSendingState(true);
+    clearSendError();
+
+    try {
+      const caption = buildFreeRegistrationCaption(registrationData);
+      const joiningImage = await fetchAssetAsFile("/free-joining.png", "free-joining.png");
+
+      let popupShown = false;
+      const showSuccessOnce = () => {
+        if (!popupShown) {
+          popupShown = true;
+          openSuccessPopup();
+          setSendingState(false);
+        }
+      };
+
+      const succeeded = await submitWithFailover(joiningImage, caption, showSuccessOnce);
+
+      if (!succeeded) {
+        showSendError("Submission failed. Please check your connection and try again.");
+        setSendingState(false);
+      } else {
+        showSuccessOnce();
+      }
+    } catch (error) {
+      console.error("Unexpected free registration submission error:", error);
+      showSendError("Submission failed. Please check your connection and try again.");
+      setSendingState(false);
+    }
+  });
+</script>

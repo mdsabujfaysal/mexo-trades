@@ -1,0 +1,8 @@
+---
+import TeamProfile from "@/components/TeamProfile.astro";
+import { team } from "@/data/team";
+
+const member = team.find((m) => m.slug === "samsul-arefin")!;
+---
+
+<TeamProfile member={member} />

@@ -28,39 +28,23 @@ const stats = [
     </div>
 
     <div class="mt-8 grid items-center gap-8 md:grid-cols-2">
-      <div
-        class="relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl shadow-lg"
-        style="background: linear-gradient(135deg, #0f172a 0%, #0f172a 60%, rgba(37,99,235,0.3) 100%);"
-      >
+      <div class="relative mx-auto aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl shadow-lg">
+        <img
+          src="/images/mexo-founder.jpg"
+          alt="Md Sabuj Faysal, Founder of MEXO, at his trading desk"
+          class="absolute inset-0 h-full w-full object-cover object-top"
+        />
+
         <div
-          class="absolute inset-0 opacity-40"
-          style="background: radial-gradient(circle at 70% 20%, rgba(59,130,246,0.6), transparent 60%);"
+          class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-slate-900/95 via-slate-900/40 to-transparent"
+          aria-hidden="true"
         >
         </div>
 
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="190"
-          height="190"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="pointer-events-none absolute -bottom-12 -right-12 text-white/[0.07]"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-          <polyline points="16 7 22 7 22 13"></polyline>
-        </svg>
-
-        <div class="relative flex h-full flex-col items-center justify-center gap-3 px-6 text-center">
-          <span class="text-6xl font-black leading-none tracking-tight text-white">MEXO</span>
-          <span class="h-px w-16 bg-gradient-to-r from-blue-500 to-emerald-400"></span>
-          <span class="whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.15em] text-white/60">
-            Market Execution Optimization
+        <div class="relative flex h-full flex-col items-start justify-end gap-1 px-6 pb-6">
+          <span class="text-5xl font-black leading-none tracking-tight text-sky-400">MEXO</span>
+          <span class="mt-1 text-sm font-semibold tracking-wide text-white">
+            Master Execution <span class="italic text-sky-400">Optimization</span>
           </span>
         </div>
       </div>
@@ -75,9 +59,9 @@ const stats = [
         <p class="mt-4 text-sm leading-relaxed text-slate-600">
           Most traders never learn how the market really works. MEXO was built through real market
           research and practical trading experience. Led by{" "}
-          <span class="font-semibold text-blue-700">Md Sabuj Faysal</span>, with support from{" "}
-          <span class="font-semibold text-blue-700">Faizur Rahman Shaikat</span> and{" "}
-          <span class="font-semibold text-blue-700">Md Samsul Arefin</span>, we provide live
+          <a href="/team/sabuj-faysal" class="font-semibold text-blue-700 underline decoration-blue-200 decoration-2 underline-offset-2 transition-colors hover:text-emerald-600 hover:decoration-emerald-300">Md Sabuj Faysal</a>, with support from{" "}
+          <a href="/team/faizur-rahman-shaikat" class="font-semibold text-blue-700 underline decoration-blue-200 decoration-2 underline-offset-2 transition-colors hover:text-emerald-600 hover:decoration-emerald-300">Faizur Rahman Shaikat</a> and{" "}
+          <a href="/team/samsul-arefin" class="font-semibold text-blue-700 underline decoration-blue-200 decoration-2 underline-offset-2 transition-colors hover:text-emerald-600 hover:decoration-emerald-300">Md Samsul Arefin</a>, we provide live
           mentorship to help traders understand the market—not just follow strategies.
         </p>
 

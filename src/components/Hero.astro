@@ -1,134 +1,720 @@
 ---
 ---
 
-<section id="home" class="relative overflow-hidden bg-white">
-  <svg
-    class="pointer-events-none absolute inset-x-0 top-0 h-full w-full opacity-[0.08]"
-    viewBox="0 0 1200 500"
-    fill="none"
-    preserveAspectRatio="none"
-    aria-hidden="true"
-    focusable="false"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M0 420 L120 380 L240 400 L360 300 L480 340 L600 220 L720 260 L840 140 L960 180 L1080 60 L1200 100"
-      stroke="url(#heroLine)"
-      stroke-width="4"
-      fill="none"
-    />
-    <defs>
-      <linearGradient id="heroLine" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stop-color="#1D4ED8" />
-        <stop offset="100%" stop-color="#059669" />
-      </linearGradient>
-    </defs>
-  </svg>
-
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-x-0 top-24 -z-10 mx-auto h-72 w-72 rounded-full bg-gradient-to-br from-amber-300/40 via-orange-300/30 to-rose-200/30 blur-3xl md:h-96 md:w-96"
-  >
+<section id="home" class="hero">
+  <!-- ============ BACKGROUND — the trading-room photo fills the whole hero ============ -->
+  <div class="hero__bg" aria-hidden="true">
+    <div class="hero__bg-image"></div>
+    <div class="hero__bg-tint"></div>
+    <div class="hero__bg-vignette"></div>
   </div>
 
-  <div id="hero-animate" class="relative mx-auto max-w-5xl px-6 py-20 text-center md:py-28">
-    <p class="hero-reveal inline-flex translate-y-10 items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-bold tracking-[0.15em] text-blue-700 opacity-0 shadow-[0_0_15px_3px_rgba(29,78,216,0.25)] transition-all duration-700 delay-700 ease-out">
-      MEXO MENTORSHIP PROGRAM
-      <svg class="h-4 w-4 flex-none" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="10" cy="10" r="10" fill="#2563EB" />
-        <path d="M6 10.3 8.5 12.8 14 7.3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-    </p>
+  <!-- ============ PORTRAIT — desktop / tablet: the visual identity of the hero ============ -->
+  <div class="hero__portrait">
+    <div class="hero__portrait-glow" aria-hidden="true"></div>
+    <div class="hero__portrait-contact" aria-hidden="true"></div>
+    <img
+      id="hero-portrait-img"
+      class="hero__portrait-img"
+      src="/images/mentor-portrait-cutout.png"
+      alt="Portrait of the Mexo Mentorship trading mentor"
+      loading="eager"
+      decoding="async"
+    />
 
-    <h1
-      id="hero-heading"
-      class="mt-4 -translate-x-16 text-4xl font-extrabold tracking-tight text-slate-900 opacity-0 transition-all duration-700 ease-out sm:text-5xl md:text-6xl"
-    >
-      You're Still Unprofitable?
-    </h1>
+    <!-- Role badges — animate in from either side once the portrait has
+         finished rising into place (see script below). -->
+    <img
+      id="hero-badge-analyst"
+      class="hero__badge-tag hero__badge-tag--analyst"
+      src="/images/badge-chief-analyst.png"
+      alt="Chief Market Analyst"
+      loading="eager"
+      decoding="async"
+    />
+    <img
+      id="hero-badge-ceo"
+      class="hero__badge-tag hero__badge-tag--ceo"
+      src="/images/badge-founder-ceo.png"
+      alt="Founder & CEO"
+      loading="eager"
+      decoding="async"
+    />
+  </div>
 
-    <p class="hero-reveal mt-3 translate-y-10 text-xl font-semibold text-slate-600 opacity-0 transition-all duration-700 delay-700 ease-out sm:text-2xl md:text-3xl">
-      It's Time To <span class="font-serif italic text-blue-700">Become Profitable</span>.
-    </p>
+  <!-- ============ PORTRAIT — mobile: becomes the hero background itself ============ -->
+  <div class="hero__mobile-portrait" aria-hidden="true">
+    <img
+      id="hero-mobile-portrait-img"
+      class="hero__mobile-portrait-img"
+      src="/images/mentor-portrait-cutout.png"
+      alt=""
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+  <div class="hero__mobile-overlay" aria-hidden="true"></div>
 
-    <p class="hero-reveal mx-auto mt-6 max-w-2xl translate-y-10 text-sm font-medium text-slate-700 opacity-0 transition-all duration-700 delay-700 ease-out">
-      Unlock A Deeper Understanding Of The Markets. Build The Confidence To Achieve Your Trading Goals. Become A Successful Trader.
-    </p>
+  <!-- ============ CONTENT ============ -->
+  <div class="hero__inner">
+    <div class="hero__row">
 
-    <a
-      href="#pricing"
-      class="hero-reveal mt-8 inline-flex translate-y-10 items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 px-8 py-3 text-base font-bold text-white opacity-0 shadow-[0_0_30px_8px_rgba(29,78,216,0.5)] transition-all duration-700 delay-700 ease-out hover:-translate-y-0.5"
-    >
-      Join Mentorship
-      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
-      </svg>
-    </a>
+      <!-- LEFT — copy -->
+      <div class="hero__left">
+        <div class="hero__left-shadow" aria-hidden="true"></div>
 
-    <p class="hero-reveal mx-auto mt-10 max-w-2xl translate-y-10 text-xs font-medium text-slate-500 opacity-0 transition-all duration-700 delay-700 ease-out">
-      Take 6 Minutes To Discover The Mexo Mentorship Before You Join.
-    </p>
+        <p class="hero__badge" data-reveal="left" style="--d:0ms">
+          <svg class="hero__badge-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="10" cy="10" r="10" fill="#005DFF" />
+            <path d="M6 10.3 8.5 12.8 14 7.3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          MEXO MENTORSHIP PROGRAM
+        </p>
 
-    <div class="hero-reveal mx-auto mt-3 aspect-video w-full max-w-3xl translate-y-10 overflow-hidden rounded-xl opacity-0 shadow-[0_0_40px_10px_rgba(100,116,139,0.18)] transition-all duration-700 delay-700 ease-out">
-      <iframe
-        class="block h-full w-full border-0"
-        src="https://www.youtube.com/embed/9ZRJh-QjolM"
-        title="MEXO TRADES"
-        loading="lazy"
-        frameborder="0"
-        style="border: none;"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+        <h1 id="hero-heading" class="hero__heading" data-reveal="left" style="--d:120ms">
+          You're Still <span class="hero__gradient-text">Unprofitable</span>?
+        </h1>
+
+        <p class="hero__subtitle" data-reveal="left" style="--d:220ms">
+          It's Time To <span class="hero__subtitle-accent">Become Profitable</span>.
+        </p>
+
+        <p class="hero__description" data-reveal="left" style="--d:320ms">
+          Unlock A Deeper Understanding Of The Markets. Build The Confidence To Achieve Your Trading Goals. Become A Successful Trader.
+        </p>
+
+        <a href="#pricing" class="hero__cta" data-reveal="left" style="--d:420ms">
+          Join Mentorship
+          <svg class="hero__cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- RIGHT — proof text + video -->
+      <div class="hero__right">
+        <div class="hero__right-shadow" aria-hidden="true"></div>
+
+        <p class="hero__pretext" data-reveal="left" style="--d:520ms">
+          Discover The Mexo Mentorship Before You Join.
+        </p>
+
+        <div class="hero__video" data-reveal="up" style="--d:620ms">
+          <iframe
+            class="hero__video-frame"
+            src="https://www.youtube.com/embed/9ZRJh-QjolM"
+            title="MEXO TRADES"
+            loading="lazy"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
+<style>
+  /* ==========================================================
+     TOKENS — scoped to .hero only. The rest of the site stays
+     on its normal light theme; nothing here leaks out.
+  ========================================================== */
+  .hero {
+    --bg: #05070d;
+    --bg-2: #08101d;
+    --accent: #005dff;
+    --accent-2: #2f80ff;
+    --highlight: #6ea8ff;
+    --text: #ffffff;
+    --text-2: #c4ccd8;
+    --nav-height: 5.5rem;
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    padding-top: var(--nav-height);
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  /* ==========================================================
+     BACKGROUND — the trading-room photo, full bleed. Nothing
+     invented: this is the only background source for the hero.
+  ========================================================== */
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero__bg-image {
+    position: absolute;
+    inset: 0;
+    background-image: url("/images/trading-room-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Cinematic blue/navy color grade over the photo */
+  .hero__bg-tint {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5, 7, 13, 0.55) 0%, rgba(5, 7, 13, 0.35) 40%, rgba(5, 7, 13, 0.75) 100%),
+      radial-gradient(120% 90% at 50% 30%, rgba(0, 93, 255, 0.1) 0%, rgba(5, 7, 13, 0) 60%);
+  }
+
+  .hero__bg-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 100% at 50% 40%, transparent 35%, rgba(0, 0, 0, 0.6) 100%);
+  }
+
+  /* ==========================================================
+     PORTRAIT — desktop / tablet (hidden on mobile)
+  ========================================================== */
+  .hero__portrait {
+    display: none;
+  }
+
+  /* ==========================================================
+     PORTRAIT — mobile background layer
+  ========================================================== */
+  .hero__mobile-portrait {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .hero__mobile-portrait-img {
+    position: absolute;
+    right: -68%;
+    top: 16%;
+    width: 145%;
+    height: auto;
+    max-width: none;
+    opacity: 0;
+    transform: translateY(40px);
+    -webkit-mask-image: linear-gradient(100deg, transparent 0%, black 12%, black 100%);
+    mask-image: linear-gradient(100deg, transparent 0%, black 12%, black 100%);
+  }
+
+  .hero__mobile-portrait-img.is-loaded {
+    animation: heroMobilePortraitRise 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes heroMobilePortraitRise {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 0.9;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__mobile-portrait-img {
+      opacity: 0.9;
+      transform: none;
+      animation: none;
+    }
+  }
+
+  .hero__mobile-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      100deg,
+      rgba(5, 7, 13, 0.97) 0%,
+      rgba(5, 7, 13, 0.86) 30%,
+      rgba(5, 7, 13, 0.4) 58%,
+      rgba(5, 7, 13, 0.14) 100%
+    );
+    mask-image: linear-gradient(to right, black 45%, transparent 96%);
+    -webkit-mask-image: linear-gradient(to right, black 45%, transparent 96%);
+  }
+
+  /* ==========================================================
+     LAYOUT
+  ========================================================== */
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding: 3rem 1.5rem 3rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero__row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .hero__left,
+  .hero__right {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero__left {
+    gap: 1.25rem;
+  }
+
+  .hero__right {
+    gap: 1rem;
+  }
+
+  /* Soft, irregular dark shadow behind the copy — never a hard box */
+  .hero__left-shadow,
+  .hero__right-shadow {
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .hero__left-shadow {
+    inset: -2.5rem -3rem -2.5rem -6rem;
+    background: radial-gradient(60% 75% at 28% 45%, rgba(5, 7, 13, 0.82) 0%, rgba(5, 7, 13, 0.5) 45%, transparent 78%);
+  }
+
+  .hero__right-shadow {
+    inset: -2rem -6rem -2rem -3rem;
+    background: radial-gradient(60% 75% at 72% 45%, rgba(5, 7, 13, 0.7) 0%, rgba(5, 7, 13, 0.4) 45%, transparent 78%);
+  }
+
+  /* ---- Badge ---- */
+  .hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--highlight);
+    box-shadow: 0 0 24px -4px rgba(0, 93, 255, 0.35);
+  }
+
+  .hero__badge-icon {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+  }
+
+  /* ---- Heading ---- */
+  .hero__heading {
+    margin: 0;
+    font-size: clamp(2.25rem, 6vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .hero__gradient-text {
+    background: linear-gradient(90deg, var(--accent-2), var(--highlight));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---- Subtitle ---- */
+  .hero__subtitle {
+    margin: 0;
+    font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+    font-weight: 600;
+    color: var(--text-2);
+  }
+
+  .hero__subtitle-accent {
+    font-style: italic;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--highlight);
+  }
+
+  /* ---- Description ---- */
+  .hero__description {
+    margin: 0;
+    max-width: 34rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.75;
+    color: var(--text-2);
+  }
+
+  /* ---- CTA ---- */
+  .hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0.85rem 1.9rem;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+    box-shadow: 0 18px 40px -12px rgba(0, 93, 255, 0.55);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  .hero__cta:hover,
+  .hero__cta:focus-visible {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 22px 46px -10px rgba(0, 93, 255, 0.65);
+  }
+
+  .hero__cta:focus-visible {
+    outline: 2px solid var(--highlight);
+    outline-offset: 3px;
+  }
+
+  .hero__cta-icon {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  /* ---- Right column text ---- */
+  .hero__pretext {
+    margin: 0;
+    max-width: 22rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+
+  /* ---- Video card ---- */
+  .hero__video {
+    width: 100%;
+    max-width: 22rem;
+    aspect-ratio: 16 / 9;
+    border-radius: 1.1rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 30px 70px -24px rgba(0, 0, 0, 0.75);
+  }
+
+  .hero__video-frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* ==========================================================
+     SCROLL / LOAD REVEAL ANIMATIONS
+  ========================================================== */
+  [data-reveal] {
+    transition-property: opacity, transform;
+    transition-duration: 0.8s;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--d, 0ms);
+  }
+
+  [data-reveal="left"] {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+
+  [data-reveal="up"] {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  /* ==========================================================
+     TABLET+ — portrait becomes the centered visual identity
+  ========================================================== */
+  @media (min-width: 768px) {
+    .hero {
+      --nav-height: 6rem;
+    }
+
+    .hero__mobile-portrait,
+    .hero__mobile-overlay {
+      display: none;
+    }
+
+    .hero__portrait {
+      display: block;
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      /* Same size as before (height unchanged) — just nudged down so
+         the head clears the header, instead of shrinking the image. */
+      transform: translate(-50%, 3rem);
+      height: 82%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero__portrait-img {
+      display: block;
+      height: 100%;
+      width: auto;
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 40px 50px rgba(0, 0, 0, 0.55));
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .hero__portrait-img.is-loaded {
+      animation: heroPortraitRise 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes heroPortraitRise {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero__portrait-img {
+        opacity: 1;
+        transform: none;
+        animation: none;
+      }
+    }
+
+    .hero__portrait-glow {
+      position: absolute;
+      left: 50%;
+      top: 40%;
+      transform: translate(-50%, -50%);
+      width: 46rem;
+      height: 46rem;
+      background: radial-gradient(circle, rgba(0, 93, 255, 0.24) 0%, rgba(0, 93, 255, 0) 68%);
+      filter: blur(30px);
+      z-index: -1;
+    }
+
+    .hero__portrait-contact {
+      position: absolute;
+      bottom: 2%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 2.5rem;
+      background: radial-gradient(ellipse, rgba(0, 0, 0, 0.55) 0%, transparent 75%);
+      filter: blur(6px);
+      z-index: -1;
+    }
+
+    /* ---- Role badges — start hidden behind the portrait's silhouette
+       (z-index below the portrait image, positioned near its center),
+       then slide outward into place once the portrait's own rise-in
+       animation finishes — reads as emerging from behind the photo. ---- */
+    .hero__badge-tag {
+      position: absolute;
+      z-index: 3;
+      height: auto;
+      pointer-events: none;
+      filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.5));
+      opacity: 0;
+      transition: opacity 2s linear;
+    }
+
+    .hero__badge-tag--analyst {
+      width: 9rem;
+      max-width: 30vw;
+      left: -1.25rem;
+      top: calc(22% - 37px);
+    }
+
+    .hero__badge-tag--ceo {
+      width: 12.5rem;
+      max-width: 38vw;
+      right: -3rem;
+      top: calc(4% + 30px);
+    }
+
+    .hero__badge-tag.is-visible {
+      opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero__badge-tag {
+        transition: none;
+      }
+    }
+
+    .hero__inner {
+      padding: 4rem 2.5rem 2.5rem;
+      align-items: stretch;
+    }
+
+    .hero__row {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .hero__left {
+      max-width: 24rem;
+    }
+
+    .hero__right {
+      max-width: 20rem;
+      align-self: center;
+      transform: translateY(-2.5rem);
+    }
+  }
+
+  /* ==========================================================
+     DESKTOP — full 100vh cinematic composition
+  ========================================================== */
+  @media (min-width: 1024px) {
+    .hero__portrait {
+      height: 88%;
+    }
+
+    .hero__inner {
+      padding: 0 3.5rem;
+      min-height: calc(100vh - var(--nav-height));
+    }
+
+    .hero__left {
+      max-width: 27rem;
+    }
+
+    .hero__right {
+      max-width: 22rem;
+      transform: translateY(-3rem);
+    }
+  }
+</style>
+
 <script>
-  // The rest of the hero (badge, subtitle lines, button, video) fades up
-  // from the bottom, but only starts once the headline's own animation has
-  // finished (the delay-700 class holds each one back for 700ms after the
-  // reveal classes are toggled, matching the headline's animation length).
+  // Portrait rise-in — triggers only once the actual image pixels are
+  // painted (not on DOM mount), so the rise is always visible, whether
+  // the PNG loads fresh or comes straight from cache.
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Must match the `2s` duration on .hero__portrait-img.is-loaded's
+  // `heroPortraitRise` animation below — used only as a safety-net
+  // fallback (see onPortraitSettled below), not as the primary trigger.
+  const PORTRAIT_ANIMATION_MS = 2000;
+
+  const revealOnLoad = (img) => {
+    if (!(img instanceof HTMLImageElement)) return;
+    const reveal = () => img.classList.add("is-loaded");
+    if (img.complete) {
+      reveal();
+    } else {
+      img.addEventListener("load", reveal, { once: true });
+    }
+  };
+
+  // Role badges — stay fully hidden (opacity: 0, defined in CSS) until
+  // this fires. Founder & CEO slides out first, Chief Market Analyst
+  // 500ms after that.
+  const badgeAnalyst = document.getElementById("hero-badge-analyst");
+  const badgeCeo = document.getElementById("hero-badge-ceo");
+
+  function revealBadges() {
+    badgeCeo?.classList.add("is-visible");
+    window.setTimeout(() => badgeAnalyst?.classList.add("is-visible"), 450);
+  }
+
+  // Fires once the portrait has genuinely finished rising into place —
+  // guarded so it only ever runs once, however it gets triggered.
+  let portraitSettled = false;
+  function onPortraitSettled() {
+    if (portraitSettled) return;
+    portraitSettled = true;
+    window.setTimeout(revealBadges, 900);
+  }
+
+  const portraitImg = document.getElementById("hero-portrait-img");
+  revealOnLoad(portraitImg);
+  revealOnLoad(document.getElementById("hero-mobile-portrait-img"));
+
+  if (portraitImg instanceof HTMLImageElement) {
+    if (reduceMotion) {
+      // Portrait itself skips its animation under reduced motion (see
+      // the .hero__portrait-img reduced-motion rule below) — there's no
+      // rise to wait for, so treat it as settled immediately.
+      onPortraitSettled();
+    } else {
+      // Primary trigger: the real end of the portrait's CSS animation.
+      portraitImg.addEventListener(
+        "animationend",
+        (event) => {
+          if (event.animationName === "heroPortraitRise") onPortraitSettled();
+        },
+        { once: true }
+      );
+      // Safety-net fallback, in case animationend never fires for any
+      // reason (e.g. the element was hidden/backgrounded mid-animation).
+      // Comfortably after the animation's own duration, so it never
+      // wins the race under normal conditions — it only matters if the
+      // real event is missed.
+      window.setTimeout(onPortraitSettled, PORTRAIT_ANIMATION_MS + 1000);
+    }
+  }
+
+  // Single observer drives every reveal in the hero — the direction of each
+  // element's entrance is defined in CSS via its [data-reveal] value, so
+  // this script only ever needs to toggle one class. Runs on load and again
+  // on scroll, matching both the page-load sequence and scroll-reveal spec.
   const heroSection = document.getElementById("home");
   if (heroSection) {
-    const revealEls = heroSection.querySelectorAll(".hero-reveal");
+    const revealEls = heroSection.querySelectorAll("[data-reveal]");
     const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          revealEls.forEach((el) => {
-            if (entry.isIntersecting) {
-              el.classList.remove("translate-y-10", "opacity-0");
-              el.classList.add("translate-y-0", "opacity-100");
-            } else {
-              el.classList.add("translate-y-10", "opacity-0");
-              el.classList.remove("translate-y-0", "opacity-100");
-            }
-          });
+          entry.target.classList.toggle("is-visible", entry.isIntersecting);
         });
       },
       { threshold: 0.2 }
     );
-    revealObserver.observe(heroSection);
-  }
-
-  // The main headline gets its own fade-in-from-the-right animation, and it
-  // runs first (no delay) — everything else above waits for it to finish.
-  const headingEl = document.getElementById("hero-heading");
-  if (headingEl) {
-    const headingObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            headingEl.classList.remove("-translate-x-16", "opacity-0");
-            headingEl.classList.add("translate-x-0", "opacity-100");
-          } else {
-            headingEl.classList.add("-translate-x-16", "opacity-0");
-            headingEl.classList.remove("translate-x-0", "opacity-100");
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    headingObserver.observe(headingEl);
+    revealEls.forEach((el) => revealObserver.observe(el));
   }
 </script>

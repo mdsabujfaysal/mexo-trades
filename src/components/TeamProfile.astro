@@ -1,0 +1,102 @@
+---
+// Reusable mentor profile layout. Each page in src/pages/team/ passes its
+// own mentor object from src/data/team.ts — no HTML is duplicated per mentor.
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import type { TeamMember } from "@/data/team";
+
+interface Props {
+  member: TeamMember;
+}
+
+const { member } = Astro.props;
+---
+
+<BaseLayout title={`${member.name} | MEXO TRADES`} description={member.tagline}>
+  <Header />
+  <main id="main">
+    <section class="bg-white py-14">
+      <div class="mx-auto max-w-5xl px-6">
+        <a
+          href="/#our-team"
+          class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition hover:text-blue-700"
+        >
+          <span aria-hidden="true">&larr;</span> Back to Our Team
+        </a>
+
+        <!-- A. Profile Header -->
+        <div class="mt-8 flex flex-col items-center gap-8 text-center sm:flex-row sm:items-start sm:text-left">
+          <div class="h-48 w-48 flex-shrink-0 overflow-hidden rounded-3xl shadow-md sm:h-56 sm:w-56">
+            {member.photo ? (
+              <img
+                src={member.photo}
+                alt={member.name}
+                class="h-full w-full object-cover object-top"
+              />
+            ) : (
+              <div
+                class="flex h-full w-full items-center justify-center"
+                style="background: linear-gradient(135deg, #0f172a 0%, #0f172a 60%, rgba(37,99,235,0.3) 100%);"
+              >
+                <span class="text-4xl font-black tracking-tight text-white">{member.initials}</span>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-emerald-600">Mentor Profile</p>
+            <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+              {member.name}
+            </h1>
+            <p class="mt-2 text-base font-semibold text-blue-600">{member.designation}</p>
+            <p class="mt-4 max-w-xl text-slate-600">{member.tagline}</p>
+            <span class="mx-auto mt-5 block h-px w-16 bg-gradient-to-r from-blue-500 to-emerald-400 sm:mx-0" />
+          </div>
+        </div>
+
+        <!-- B. About / Bio -->
+        <div class="mt-14">
+          <h2 class="text-xl font-extrabold tracking-tight text-slate-900">About</h2>
+          <p class="mt-4 leading-relaxed text-slate-600">{member.bio}</p>
+        </div>
+
+        <!-- C. Professional Information -->
+        <div class="mt-14">
+          <h2 class="text-xl font-extrabold tracking-tight text-slate-900">Professional Information</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            {member.professionalInfo.map((item) => (
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <p class="text-xs font-bold uppercase tracking-[0.15em] text-emerald-600">{item.label}</p>
+                <p class="mt-2 text-sm font-medium text-slate-800">{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- D. Certificates / Credentials -->
+        <div class="mt-14 pb-4">
+          <h2 class="text-xl font-extrabold tracking-tight text-slate-900">Certificates &amp; Credentials</h2>
+          <div class="mt-6 grid gap-4 sm:grid-cols-3">
+            {member.certificates.length > 0 ? (
+              member.certificates.map((cert) => (
+                <div class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm">
+                  {cert.image && (
+                    <img src={cert.image} alt={cert.title} class="h-40 w-full object-cover" />
+                  )}
+                  <p class="p-4 text-sm font-semibold text-slate-800">{cert.title}</p>
+                </div>
+              ))
+            ) : (
+              [0, 1, 2].map(() => (
+                <div class="flex h-40 flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 p-4 text-center">
+                  <p class="text-xs font-semibold text-slate-400">Certificate placeholder</p>
+                  <p class="mt-1 text-[11px] text-slate-400">Add certificate image &amp; title in team.ts</p>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
