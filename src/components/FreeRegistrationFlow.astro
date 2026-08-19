@@ -3,6 +3,7 @@
 // Reuses the same layout, spacing, colors, typography, validation,
 // animations, popup design, webhook logic, and Telegram integration as the
 // Premium Payment Flow, but only collects information (no payment step).
+
 ---
 
 <section class="relative overflow-hidden bg-slate-50 py-12">
@@ -12,29 +13,44 @@
   >
   </div>
 
-  <div class="mx-auto max-w-2xl px-6">
+  <div class="relative mx-auto max-w-2xl px-6">
     <h1 class="sr-only">MEXO TRADES Free Access Registration</h1>
+
+    <!-- VIP eyebrow badge -->
+    <div class="mb-6 flex justify-center">
+      <span class="vip-badge">
+        <span class="vip-badge-dot"></span>
+        Free Access Pass · MEXO TRADES
+      </span>
+    </div>
 
     <!-- Progress indicator -->
     <div class="mb-10">
-      <div class="flex items-center justify-between">
-        <span id="free-progress-label" class="text-xs font-bold uppercase tracking-[0.15em] text-slate-400">
+      <div class="stepper" aria-hidden="true">
+        <div class="stepper-node" data-stepper-node="1">
+          <span class="stepper-circle">1</span>
+          <span class="stepper-label">Information</span>
+        </div>
+        <div class="stepper-line">
+          <span id="free-progress-fill" class="stepper-line-fill" style="width: 50%"></span>
+        </div>
+        <div class="stepper-node" data-stepper-node="2">
+          <span class="stepper-circle">2</span>
+          <span class="stepper-label">Confirming</span>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center justify-between">
+        <span id="free-progress-label" class="font-display text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
           Step 1 of 2
         </span>
-        <span id="free-progress-title" class="text-sm font-bold text-slate-900">Your Information</span>
-      </div>
-      <div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
-        <div
-          id="free-progress-fill"
-          class="h-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 transition-all duration-500 ease-out"
-          style="width: 50%"
-        >
-        </div>
+        <span id="free-progress-title" class="font-display text-sm font-bold text-slate-900">Your Information</span>
       </div>
     </div>
 
+
     <!-- STEP 1: Your Information -->
-    <div data-free-step="1" class="page-card rounded-[2rem] border border-white/60 bg-white/70 p-6 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.2)] backdrop-blur-xl sm:p-10">
+    <div data-free-step="1" class="glow-ring">
+    <div class="page-card vip-card rounded-[2rem] p-6 sm:p-10">
       <a
         href="/"
         class="back-btn mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-900"
@@ -45,90 +61,158 @@
         Back
       </a>
 
-      <h2 class="text-center text-2xl font-extrabold tracking-tight text-slate-900">Your Information</h2>
+      <h2 class="font-display text-center text-2xl font-extrabold tracking-tight text-slate-900">Your Information</h2>
       <p class="mt-2 text-center text-sm text-slate-500">Tell us where to reach you.</p>
 
       <form id="free-info-form" class="mt-8 space-y-5">
         <div>
-          <label class="block text-sm font-semibold text-slate-700" for="free-fullName">Full Name</label>
-          <input
-            id="free-fullName"
-            name="fullName"
-            type="text"
-            required
-            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
-          />
+          <label class="flex items-center gap-1.5 text-sm font-semibold text-slate-700" for="free-fullName">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.5" />
+              <path stroke-linecap="round" d="M5 20c0-3.6 3.1-6.5 7-6.5s7 2.9 7 6.5" />
+            </svg>
+            Full Name
+          </label>
+          <div class="input-icon-wrap mt-1.5">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.5" />
+              <path stroke-linecap="round" d="M5 20c0-3.6 3.1-6.5 7-6.5s7 2.9 7 6.5" />
+            </svg>
+            <input
+              id="free-fullName"
+              name="fullName"
+              type="text"
+              required
+              class="vip-input w-full rounded-2xl border border-slate-300 bg-white/90 py-3 pl-11 pr-4 text-sm text-slate-900 transition-all duration-200 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700"
+            />
+          </div>
           <p id="free-fullName-error" class="mt-1 hidden text-xs font-medium text-red-600">Please enter your full name.</p>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700" for="free-email">Email Address</label>
-          <input
-            id="free-email"
-            name="email"
-            type="email"
-            required
-            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
-          />
+          <label class="flex items-center gap-1.5 text-sm font-semibold text-slate-700" for="free-email">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2.5" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6.5l8 6 8-6" />
+            </svg>
+            Email Address
+          </label>
+          <div class="input-icon-wrap mt-1.5">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2.5" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6.5l8 6 8-6" />
+            </svg>
+            <input
+              id="free-email"
+              name="email"
+              type="email"
+              required
+              class="vip-input w-full rounded-2xl border border-slate-300 bg-white/90 py-3 pl-11 pr-4 text-sm text-slate-900 transition-all duration-200 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700"
+            />
+          </div>
           <p id="free-email-error" class="mt-1 hidden text-xs font-medium text-red-600">Please enter a valid email ending in @gmail.com (e.g. name@gmail.com).</p>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700" for="free-phone">Phone Number</label>
-          <input
-            id="free-phone"
-            name="phone"
-            type="tel"
-            required
-            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
-          />
+          <label class="flex items-center gap-1.5 text-sm font-semibold text-slate-700" for="free-phone">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 006 6l1.5-2 4 1.5v3a2 2 0 01-2.2 2A17.5 17.5 0 014.5 5.7a2 2 0 012-2.2z" />
+            </svg>
+            Phone Number
+          </label>
+          <div class="input-icon-wrap mt-1.5">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 006 6l1.5-2 4 1.5v3a2 2 0 01-2.2 2A17.5 17.5 0 014.5 5.7a2 2 0 012-2.2z" />
+            </svg>
+            <input
+              id="free-phone"
+              name="phone"
+              type="tel"
+              required
+              class="vip-input w-full rounded-2xl border border-slate-300 bg-white/90 py-3 pl-11 pr-4 text-sm text-slate-900 transition-all duration-200 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700"
+            />
+          </div>
           <p id="free-phone-error" class="mt-1 hidden text-xs font-medium text-red-600">Phone number must be exactly 11 digits.</p>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700" for="free-telegram">Telegram Username</label>
-          <input
-            id="free-telegram"
-            name="telegram"
-            type="text"
-            placeholder="@username"
-            required
-            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
-          />
+          <label class="flex items-center gap-1.5 text-sm font-semibold text-slate-700" for="free-telegram">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 4L3 11.5l6 2.2M21 4l-3.2 16-6.8-5M21 4L9.5 13.7l-.5 5.3 3.2-3.2" />
+            </svg>
+            Telegram Username
+          </label>
+          <div class="input-icon-wrap mt-1.5">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 4L3 11.5l6 2.2M21 4l-3.2 16-6.8-5M21 4L9.5 13.7l-.5 5.3 3.2-3.2" />
+            </svg>
+            <input
+              id="free-telegram"
+              name="telegram"
+              type="text"
+              placeholder="@username"
+              required
+              class="vip-input w-full rounded-2xl border border-slate-300 bg-white/90 py-3 pl-11 pr-4 text-sm text-slate-900 transition-all duration-200 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700"
+            />
+          </div>
           <p id="free-telegram-error" class="mt-1 hidden text-xs font-medium text-red-600">Please enter your Telegram username.</p>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700" for="free-country">Country</label>
-          <input
-            id="free-country"
-            name="country"
-            type="text"
-            required
-            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
-          />
+          <label class="flex items-center gap-1.5 text-sm font-semibold text-slate-700" for="free-country">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="8.5" />
+              <path stroke-linecap="round" d="M3.5 12h17M12 3.5c2.4 2.3 3.7 5.3 3.7 8.5s-1.3 6.2-3.7 8.5c-2.4-2.3-3.7-5.3-3.7-8.5S9.6 5.8 12 3.5z" />
+            </svg>
+            Country
+          </label>
+          <div class="input-icon-wrap mt-1.5">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="8.5" />
+              <path stroke-linecap="round" d="M3.5 12h17M12 3.5c2.4 2.3 3.7 5.3 3.7 8.5s-1.3 6.2-3.7 8.5c-2.4-2.3-3.7-5.3-3.7-8.5S9.6 5.8 12 3.5z" />
+            </svg>
+            <input
+              id="free-country"
+              name="country"
+              type="text"
+              required
+              class="vip-input w-full rounded-2xl border border-slate-300 bg-white/90 py-3 pl-11 pr-4 text-sm text-slate-900 transition-all duration-200 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700"
+            />
+          </div>
           <p id="free-country-error" class="mt-1 hidden text-xs font-medium text-red-600">Please enter your country.</p>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700" for="free-tradingExperience">Trading Experience</label>
-          <select
-            id="free-tradingExperience"
-            name="tradingExperience"
-            required
-            class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white/80 px-4 py-2.5 text-sm text-slate-900 transition-colors focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700"
-          >
-            <option value="" disabled selected>Select Your Trading Experience</option>
-            <option value="I'm Completely New">I'm Completely New</option>
-            <option value="0–6 Months">0–6 Months</option>
-            <option value="6 Months–2 Years">6 Months–2 Years</option>
-            <option value="2–5 Years">2–5 Years</option>
-            <option value="5+ Years">5+ Years</option>
-          </select>
+          <label class="flex items-center gap-1.5 text-sm font-semibold text-slate-700" for="free-tradingExperience">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 19V9m6.5 10V5M17 19v-6" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 19h16" />
+            </svg>
+            Trading Experience
+          </label>
+          <div class="input-icon-wrap mt-1.5">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 19V9m6.5 10V5M17 19v-6" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 19h16" />
+            </svg>
+            <select
+              id="free-tradingExperience"
+              name="tradingExperience"
+              required
+              class="vip-input w-full rounded-2xl border border-slate-300 bg-white/90 py-3 pl-11 pr-4 text-sm text-slate-900 transition-all duration-200 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700"
+            >
+              <option value="" disabled selected>Select Your Trading Experience</option>
+              <option value="I'm Completely New">I'm Completely New</option>
+              <option value="0–6 Months">0–6 Months</option>
+              <option value="6 Months–2 Years">6 Months–2 Years</option>
+              <option value="2–5 Years">2–5 Years</option>
+              <option value="5+ Years">5+ Years</option>
+            </select>
+          </div>
           <p id="free-tradingExperience-error" class="mt-1 hidden text-xs font-medium text-red-600">Please select your trading experience.</p>
         </div>
 
-        <label class="flex items-start gap-3 pt-2 text-sm text-slate-700">
+        <label class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-4 pt-4 text-sm text-slate-700">
           <input
             id="free-confirm-correct"
             type="checkbox"
@@ -142,15 +226,17 @@
           id="free-to-step-2"
           disabled
           aria-disabled="true"
-          class="w-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3.5 text-sm font-bold text-white opacity-30 shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-all duration-300 pointer-events-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+          class="shine-btn w-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3.5 text-sm font-bold text-white opacity-30 shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-all duration-300 pointer-events-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
         >
-          Continue
+          <span class="relative z-10">Continue</span>
         </button>
       </form>
     </div>
+    </div>
 
-    <!-- STEP 2: Review Information -->
-    <div data-free-step="2" class="page-card hidden rounded-[2rem] border border-white/60 bg-white/70 p-6 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.2)] backdrop-blur-xl sm:p-10">
+    <!-- STEP 2: Confirming Registration -->
+    <div data-free-step="2" class="glow-ring hidden">
+    <div class="page-card vip-card rounded-[2rem] p-6 sm:p-10">
       <button
         type="button"
         class="back-btn mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-900"
@@ -162,49 +248,59 @@
         Back
       </button>
 
-      <h2 class="text-center text-2xl font-extrabold tracking-tight text-slate-900">Review Information</h2>
-      <p class="mt-2 text-center text-sm text-slate-500">Please confirm your details before sending.</p>
+      <span class="vip-badge vip-badge--sm mx-auto mb-3 flex w-fit items-center">
+        <span class="vip-badge-dot"></span>
+        Almost There
+      </span>
+      <h2 class="font-display text-center text-2xl font-extrabold tracking-tight text-slate-900">Confirming Registration</h2>
+      <p class="mt-2 text-center text-sm text-slate-500">Please wait while we check your registration details.</p>
 
-      <dl class="mt-8 space-y-4 rounded-2xl border border-slate-200 bg-white/80 p-6">
-        {
-          [
-            ["Full Name", "review-fullName"],
-            ["Email", "review-email"],
-            ["Phone", "review-phone"],
-            ["Telegram Username", "review-telegram"],
-            ["Country", "review-country"],
-            ["Trading Experience", "review-tradingExperience"],
-          ].map(([label, id]) => (
-            <div class="flex flex-col gap-0.5 border-b border-slate-100 pb-3 last:border-0 last:pb-0 sm:flex-row sm:items-baseline sm:justify-between">
-              <dt class="text-sm font-semibold text-slate-500">{label}</dt>
-              <dd id={id} class="text-sm font-bold text-slate-900 sm:text-right" />
-            </div>
-          ))
-        }
-      </dl>
+      <div id="free-checking-box" class="mt-8 flex flex-col items-center gap-4 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-8 transition-colors duration-300">
+        <div id="free-checking-spinner" class="mini-spinner" aria-hidden="true"></div>
+        <span id="free-checking-icon" class="hidden text-3xl leading-none" aria-hidden="true"></span>
+        <p id="free-checking-status" class="font-display text-sm font-bold text-slate-700">Checking Registration Details…</p>
+        <p id="free-checking-countdown" class="font-display text-4xl font-extrabold text-blue-700">30s</p>
+      </div>
 
       <p id="free-send-error" class="mt-3 hidden text-center text-xs font-semibold text-red-600"></p>
 
       <button
         type="button"
         id="free-send-now-btn"
-        class="send-now-btn mt-8 w-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3.5 text-sm font-bold text-white shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+        disabled
+        aria-disabled="true"
+        class="send-now-btn shine-btn mt-8 w-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3.5 text-sm font-bold text-white opacity-30 shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-all duration-300 pointer-events-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
       >
-        <span id="free-send-now-label">Send Now</span>
+        <span class="relative z-10 inline-flex items-center justify-center gap-1.5">
+          <span id="free-send-now-label">Please Wait…</span>
+          <svg id="free-send-now-arrow" class="nudge-arrow hidden h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0l-6-6m6 6l-6 6" />
+          </svg>
+        </span>
       </button>
+    </div>
     </div>
   </div>
 </section>
 
 <!-- Free Registration Success Popup — same component/design as the Payment flow's popup, content only changed -->
 <div id="free-success-popup-overlay" class="success-popup-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="free-success-popup-title">
-  <div id="free-success-popup-card" class="success-popup-card">
+  <div id="free-success-popup-card" class="success-popup-card vip-popup-card">
+    <span class="popup-sparkle popup-sparkle--1" aria-hidden="true">✦</span>
+    <span class="popup-sparkle popup-sparkle--2" aria-hidden="true">✦</span>
+    <span class="popup-sparkle popup-sparkle--3" aria-hidden="true">✦</span>
+
+    <span class="vip-badge vip-badge--sm mx-auto mb-4 flex w-fit items-center">
+      <span class="vip-badge-dot"></span>
+      Welcome to MEXO
+    </span>
+
     <div class="success-icon-wrap">
       <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
         <path class="success-icon-check" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
       </svg>
     </div>
-    <h3 id="free-success-popup-title" class="mt-6 text-center text-xl font-extrabold tracking-tight text-slate-900">
+    <h3 id="free-success-popup-title" class="font-display mt-6 text-center text-xl font-extrabold tracking-tight text-slate-900">
       Registration Submitted Successfully
     </h3>
     <p class="mx-auto mt-3 max-w-sm text-center text-sm leading-relaxed text-slate-600">
@@ -212,16 +308,365 @@
     </p>
     <div class="mt-8 flex flex-col gap-3 sm:flex-row">
       <a
-        href="/"
-        class="flex-1 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3 text-center text-sm font-bold text-white shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-transform hover:-translate-y-0.5"
+        href="https://t.me/+OWIkFa_9tPlkMWQ1"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="shine-btn flex-1 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3 text-center text-sm font-bold text-white shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-transform hover:-translate-y-0.5"
       >
-        Done
+        <span class="relative z-10 inline-flex items-center justify-center gap-2">
+          Join Classroom
+          <svg class="join-arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0l-6-6m6 6l-6 6" />
+          </svg>
+        </span>
       </a>
     </div>
   </div>
 </div>
 
+<!-- Phone verification: brief "checking" overlay before the confirm modal.
+     Purely a frontend re-confirmation / anti-spam step — no SMS or
+     third-party phone verification happens here. -->
+<div id="free-phone-checking-overlay" class="confirm-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="free-phone-checking-title">
+  <div class="confirm-card vip-popup-card">
+    <span class="popup-sparkle popup-sparkle--1" aria-hidden="true">✦</span>
+    <span class="popup-sparkle popup-sparkle--2" aria-hidden="true">✦</span>
+    <div class="mini-spinner" aria-hidden="true"></div>
+    <h3 id="free-phone-checking-title" class="font-display mt-4 text-center text-lg font-extrabold tracking-tight text-slate-900">
+      Verifying Your Phone Number
+    </h3>
+    <p class="mt-2 text-center text-sm text-slate-500">Please wait while we verify your registration details.</p>
+  </div>
+</div>
+
+<!-- Phone confirmation modal (registration re-confirmation, not real SMS/authentication) -->
+<div id="free-confirm-phone-overlay" class="confirm-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="free-confirm-phone-title">
+  <div class="confirm-card vip-popup-card">
+    <span class="popup-sparkle popup-sparkle--1" aria-hidden="true">✦</span>
+    <span class="popup-sparkle popup-sparkle--2" aria-hidden="true">✦</span>
+    <span class="popup-sparkle popup-sparkle--3" aria-hidden="true">✦</span>
+
+    <!-- Phase 1: result after checking -->
+    <div id="free-confirm-phase-result" class="text-center">
+      <div class="warning-icon-wrap" aria-hidden="true">
+        <span class="warning-icon-emoji">⚠️</span>
+      </div>
+      <span class="vip-badge vip-badge--sm mx-auto mt-4 mb-1 flex w-fit items-center">
+        <span class="vip-badge-dot"></span>
+        Verification Needed
+      </span>
+      <h3 id="free-confirm-phone-title" class="font-display mt-2 text-center text-lg font-extrabold tracking-tight text-slate-900">
+        Phone Confirmation Required
+      </h3>
+      <p class="mt-2 text-center text-sm text-slate-500">
+        We couldn't confirm your registration details automatically. Please confirm the phone number you
+        entered, or edit your information if something's incorrect.
+      </p>
+      <div class="mt-6 flex flex-col gap-2.5">
+        <button
+          type="button"
+          id="free-confirm-phone-btn"
+          class="shine-btn w-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3 text-sm font-bold text-white shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-transform hover:-translate-y-0.5"
+        >
+          <span class="relative z-10">Confirm Phone Number</span>
+        </button>
+        <button
+          type="button"
+          id="free-confirm-phone-edit-btn"
+          class="w-full rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-slate-50"
+        >
+          Edit Information
+        </button>
+      </div>
+    </div>
+
+    <!-- Phase 2: re-enter phone number -->
+    <div id="free-confirm-phase-input" class="hidden">
+      <div class="mobile-icon-wrap" aria-hidden="true">
+        <span class="mobile-icon-emoji">📱</span>
+      </div>
+      <h3 class="font-display mt-4 text-center text-lg font-extrabold tracking-tight text-slate-900">Confirm Your Phone Number</h3>
+      <p class="mt-2 text-center text-sm text-slate-500">Enter the phone number you provided during registration.</p>
+      <div class="mt-5">
+        <label class="flex items-center gap-1.5 text-sm font-semibold text-slate-700" for="free-confirm-phone-input">
+          <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 006 6l1.5-2 4 1.5v3a2 2 0 01-2.2 2A17.5 17.5 0 014.5 5.7a2 2 0 012-2.2z" />
+          </svg>
+          Confirm the phone number you entered
+        </label>
+        <div class="input-icon-wrap mt-1.5">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 006 6l1.5-2 4 1.5v3a2 2 0 01-2.2 2A17.5 17.5 0 014.5 5.7a2 2 0 012-2.2z" />
+          </svg>
+          <input
+            id="free-confirm-phone-input"
+            type="tel"
+            inputmode="numeric"
+            maxlength="11"
+            placeholder="Fill your valid number"
+            class="vip-input w-full rounded-2xl border border-slate-300 bg-white/90 py-3 pl-11 pr-4 text-sm text-slate-900 transition-all duration-200 focus:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700"
+          />
+        </div>
+        <p id="free-confirm-phone-error" class="mt-1.5 hidden text-xs font-medium text-red-600">Phone Number Does Not Match.</p>
+      </div>
+      <div class="mt-6">
+        <button
+          type="button"
+          id="free-confirm-phone-submit-btn"
+          class="shine-btn w-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3 text-sm font-bold text-white shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-transform hover:-translate-y-0.5"
+        >
+          <span class="relative z-10">Confirm</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Phase 2.5: 10s verifying loading, shown after Confirm is clicked and the
+         number matches, before the success phase appears -->
+    <div id="free-confirm-phase-loading" class="hidden text-center">
+      <div class="mini-spinner" aria-hidden="true"></div>
+      <h3 class="font-display mt-4 text-center text-lg font-extrabold tracking-tight text-slate-900">Verifying…</h3>
+      <p class="mt-2 text-center text-sm text-slate-500">Please wait while we finalize your phone confirmation.</p>
+    </div>
+
+    <!-- Phase 3: success -->
+    <div id="free-confirm-phase-success" class="hidden text-center">
+      <div id="free-confirm-success-icon-wrap" class="success-icon-wrap" style="height:3.25rem;width:3.25rem;">
+        <svg class="success-icon" style="height:1.5rem;width:1.5rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path class="success-icon-check" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <span class="vip-badge vip-badge--sm mx-auto mt-4 mb-1 flex w-fit items-center">
+        <span class="vip-badge-dot"></span>
+        Verified
+      </span>
+      <h3 class="font-display mt-2 text-lg font-extrabold tracking-tight text-slate-900">Registration Phone Confirmed</h3>
+      <p class="mt-2 text-sm text-slate-500">
+        This confirms that the phone number entered matches your registration details.
+      </p>
+      <div class="mt-6">
+        <button
+          type="button"
+          id="free-confirm-phone-next-btn"
+          class="shine-btn w-full rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3 text-sm font-bold text-white shadow-[0_12px_25px_-8px_rgba(29,78,216,0.5)] transition-transform hover:-translate-y-0.5"
+        >
+          <span class="relative z-10">Next</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <style>
+  /* ---------------------------------------------------------------------
+     VIP visual layer — display font + dark aurora scene + premium card
+     chrome. Purely presentational: no ids used by the script below are
+     touched, and no field/validation classes are removed.
+  --------------------------------------------------------------------- */
+  @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap");
+
+  .font-display {
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .field-icon {
+    height: 15px;
+    width: 15px;
+    flex-shrink: 0;
+    color: #10b981;
+  }
+
+  .input-icon-wrap {
+    position: relative;
+  }
+  .input-icon-wrap .input-icon {
+    position: absolute;
+    top: 50%;
+    left: 0.9rem;
+    height: 18px;
+    width: 18px;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+    transition: color 0.2s ease;
+  }
+  .input-icon-wrap:focus-within .input-icon {
+    color: #2563eb;
+  }
+
+  .vip-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.08);
+    padding: 0.4rem 1rem;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #047857;
+    box-shadow: 0 8px 20px -12px rgba(16, 185, 129, 0.45);
+  }
+  .vip-badge--sm {
+    border-color: rgba(37, 99, 235, 0.25);
+    background: rgba(37, 99, 235, 0.06);
+    color: #1d4ed8;
+    box-shadow: none;
+  }
+  .vip-badge-dot {
+    height: 6px;
+    width: 6px;
+    border-radius: 9999px;
+    background: currentColor;
+    box-shadow: 0 0 6px 1px currentColor;
+    animation: pulse-dot 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 0.5; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+
+  /* Gradient-ring wrapper: the glowing "premium" border behind each card */
+  .glow-ring {
+    position: relative;
+    border-radius: 2.1rem;
+    padding: 1.5px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.7), rgba(37, 99, 235, 0.5), rgba(16, 185, 129, 0.35));
+    box-shadow: 0 20px 50px -20px rgba(15, 23, 42, 0.25), 0 0 30px -14px rgba(16, 185, 129, 0.4);
+  }
+  .glow-ring.hidden {
+    display: none;
+  }
+
+  .vip-card {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(20px);
+  }
+
+  /* Stylish stepper (purely visual — #free-progress-fill keeps its id and
+     inline width so the existing script logic is unaffected) */
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .stepper-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .stepper-circle {
+    display: flex;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: white;
+    background: linear-gradient(135deg, #10b981, #2563eb);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12), 0 8px 20px -8px rgba(16, 185, 129, 0.7);
+  }
+  .stepper-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgba(100, 116, 139, 0.85);
+  }
+  .stepper-line {
+    position: relative;
+    top: -0.9rem;
+    flex: 1;
+    height: 4px;
+    overflow: hidden;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.12);
+  }
+  .stepper-line-fill {
+    display: block;
+    height: 100%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #10b981, #2563eb);
+    box-shadow: 0 0 10px 1px rgba(16, 185, 129, 0.7);
+    transition: width 0.5s ease-out;
+  }
+
+  /* Shine sweep on primary buttons */
+  .shine-btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .shine-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.45) 40%, transparent 60%);
+    transform: translateX(-120%);
+  }
+  .shine-btn:not(:disabled):hover::before {
+    animation: shine-sweep 1.1s ease;
+  }
+
+  /* Nudging arrow on the Join Classroom button — draws the eye to click */
+  .join-arrow {
+    animation: nudge-arrow 1.2s ease-in-out infinite;
+  }
+  @keyframes nudge-arrow {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(5px);
+    }
+  }
+  @keyframes shine-sweep {
+    to {
+      transform: translateX(120%);
+    }
+  }
+
+  .vip-input:focus {
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12), 0 8px 20px -10px rgba(16, 185, 129, 0.4);
+  }
+
+  .vip-popup-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(16, 185, 129, 0.18);
+  }
+  .popup-sparkle {
+    position: absolute;
+    color: #34d399;
+    opacity: 0.6;
+    font-size: 0.85rem;
+    animation: twinkle 2.6s ease-in-out infinite;
+  }
+  .popup-sparkle--1 { top: 1.25rem; left: 1.5rem; animation-delay: 0.1s; }
+  .popup-sparkle--2 { top: 2rem; right: 2rem; color: #2563eb; animation-delay: 0.7s; }
+  .popup-sparkle--3 { bottom: 1.5rem; left: 2.25rem; animation-delay: 1.3s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vip-badge-dot,
+    .popup-sparkle,
+    .shine-btn::before {
+      animation: none !important;
+    }
+  }
+
   /* Same page-in animation used by the Payment flow's .page-card */
   .page-card {
     animation: page-in 0.4s ease-out;
@@ -300,21 +745,128 @@
     width: 2rem;
     color: white;
   }
+
+  /* Checking overlay + phone confirmation modal — same overlay/card pattern
+     as the success popup above, simple and unstyled beyond that. */
+  .confirm-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+  }
+  .confirm-overlay.hidden {
+    display: none;
+  }
+  .confirm-card {
+    width: 100%;
+    max-width: 24rem;
+    border-radius: 1.5rem;
+    background: white;
+    padding: 2rem 1.75rem;
+    box-shadow: 0 30px 80px -20px rgba(15, 23, 42, 0.45);
+    animation: popup-in 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .mini-spinner {
+    margin: 0 auto;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 9999px;
+    border: 3px solid rgba(37, 99, 235, 0.2);
+    border-top-color: #2563eb;
+    animation: mini-spin 0.8s linear infinite;
+  }
+  @keyframes mini-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .warning-icon-wrap {
+    margin: 0 auto;
+    display: flex;
+    height: 3.25rem;
+    width: 3.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: rgba(245, 158, 11, 0.12);
+  }
+  .warning-icon-emoji {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  .mobile-icon-wrap {
+    margin: 0 auto;
+    display: flex;
+    height: 3.25rem;
+    width: 3.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: rgba(37, 99, 235, 0.1);
+  }
+  .mobile-icon-emoji {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  /* Nudge arrow on the "Confirm Registration" button — gently bounces
+     side to side to draw the eye toward the action. */
+  .nudge-arrow {
+    animation: nudge-arrow 1.1s ease-in-out infinite;
+  }
+  @keyframes nudge-arrow {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(5px);
+    }
+  }
+
+  /* Tick pop-in animation, played once the phone number is verified. */
+  .tick-pop {
+    animation: tick-pop 480ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  @keyframes tick-pop {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.15);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 </style>
 
 <script>
   import {
-    submitWithFailover,
-    fetchAssetAsFile,
     isValidEmail,
     isValidPhone,
     isNonEmpty,
   } from "../lib/mexoSubmission";
 
+  // New submission target: a Google Apps Script Web App that writes the
+  // registration to a Google Sheet and forwards it to Discord on the
+  // backend. The frontend no longer talks to Telegram or Discord directly,
+  // and no webhook/token is exposed here.
+  const FREE_REGISTRATION_API_URL =
+    "https://script.google.com/macros/s/AKfycbziS6kTlVEkZX8y5WomhPG91q8hlcaRZ9O3rr2D4GhxTG9i_if23IIOpspBeJp8e2ozww/exec";
+
   let currentFreeStep = 1;
   const FREE_STEP_TITLES: Record<number, string> = {
     1: "Your Information",
-    2: "Review Information",
+    2: "Confirming Registration",
   };
 
   const freeStepDivs = document.querySelectorAll<HTMLDivElement>("[data-free-step]");
@@ -432,24 +984,142 @@
       tradingExperience: tradingExperienceInput.value,
     };
 
-    (document.getElementById("review-fullName") as HTMLElement).textContent = registrationData.fullName;
-    (document.getElementById("review-email") as HTMLElement).textContent = registrationData.email;
-    (document.getElementById("review-phone") as HTMLElement).textContent = registrationData.phone;
-    (document.getElementById("review-telegram") as HTMLElement).textContent = registrationData.telegram;
-    (document.getElementById("review-country") as HTMLElement).textContent = registrationData.country;
-    (document.getElementById("review-tradingExperience") as HTMLElement).textContent =
-      registrationData.tradingExperience;
+    // Any (re)entry into Step 2 — first pass or after editing — requires
+    // the phone number to be (re)confirmed before final submission.
+    phoneConfirmed = false;
+    confirmationInProgress = false;
+    if (phoneCheckingTimer !== undefined) {
+      window.clearTimeout(phoneCheckingTimer);
+      phoneCheckingTimer = undefined;
+    }
+    hidePhoneCheckingOverlay();
+    closeConfirmPhoneModal();
 
     goToFreeStep(2);
+    startCheckingCountdown();
   });
 
   /* ---------------------------------------------------------------------
-     STEP 2: Review + Send Now
+     STEP 2: 20s checking countdown, then Send Information Now
   --------------------------------------------------------------------- */
   const sendNowBtn = document.getElementById("free-send-now-btn") as HTMLButtonElement;
   const sendNowLabel = document.getElementById("free-send-now-label") as HTMLSpanElement;
   const sendErrorEl = document.getElementById("free-send-error") as HTMLParagraphElement;
   const successPopupOverlay = document.getElementById("free-success-popup-overlay") as HTMLDivElement;
+
+  const checkingBox = document.getElementById("free-checking-box") as HTMLDivElement;
+  const checkingIcon = document.getElementById("free-checking-icon") as HTMLSpanElement;
+  const checkingSpinner = document.getElementById("free-checking-spinner") as HTMLDivElement;
+  const checkingStatusEl = document.getElementById("free-checking-status") as HTMLParagraphElement;
+  const checkingCountdownEl = document.getElementById("free-checking-countdown") as HTMLParagraphElement;
+  const sendNowArrow = document.getElementById("free-send-now-arrow") as unknown as HTMLElement;
+
+  const CHECKING_COUNTDOWN_SECONDS = 30;
+  let checkingInterval: number | undefined;
+
+  // Tracks what the Send/Verify/Confirm button should say and look like
+  // while it's NOT in its transient "sending" state.
+  let sendBtnRestLabel = "Please Wait…";
+  let sendBtnArrowVisible = false;
+
+  function setSendBtnEnabled(enabled: boolean) {
+    sendNowBtn.disabled = !enabled;
+    sendNowBtn.setAttribute("aria-disabled", String(!enabled));
+    sendNowBtn.classList.toggle("opacity-30", !enabled);
+    sendNowBtn.classList.toggle("pointer-events-none", !enabled);
+  }
+
+  // Swaps the checking box between its three visual states: the neutral
+  // "checking" look, a light-red "error" look once the 30s check finishes,
+  // and a light-green "verified" look once the phone number is confirmed.
+  function setCheckingBoxState(state: "checking" | "error" | "verified") {
+    checkingBox.classList.remove(
+      "border-slate-200",
+      "bg-gradient-to-br",
+      "from-slate-50",
+      "to-white",
+      "border-red-300",
+      "bg-red-50",
+      "border-emerald-300",
+      "bg-emerald-50"
+    );
+    checkingStatusEl.classList.remove("text-slate-700", "text-red-600", "text-emerald-700", "text-blue-700");
+
+    if (state === "checking") {
+      checkingBox.classList.add("border-slate-200", "bg-gradient-to-br", "from-slate-50", "to-white");
+      checkingStatusEl.classList.add("text-slate-700");
+      checkingIcon.classList.add("hidden");
+    } else if (state === "error") {
+      checkingBox.classList.add("border-red-300", "bg-red-50");
+      checkingStatusEl.classList.add("text-red-600");
+      checkingIcon.textContent = "⚠️";
+      checkingIcon.classList.remove("hidden");
+    } else {
+      checkingBox.classList.add("border-emerald-300", "bg-emerald-50");
+      checkingStatusEl.classList.add("text-emerald-700");
+      checkingIcon.textContent = "✅";
+      checkingIcon.classList.remove("hidden");
+    }
+  }
+
+  // Runs a 30 second countdown showing a "checking" status. Purely a
+  // frontend pacing step (no verification happens) — once it reaches 0 the
+  // box flips to an error state and the Verify Now button is enabled so
+  // the user can proceed to confirm their phone number.
+  function startCheckingCountdown() {
+    if (checkingInterval !== undefined) {
+      window.clearInterval(checkingInterval);
+      checkingInterval = undefined;
+    }
+
+    let remaining = CHECKING_COUNTDOWN_SECONDS;
+    checkingSpinner.classList.remove("hidden");
+    setCheckingBoxState("checking");
+    checkingStatusEl.textContent = "Checking Registration Details…";
+    checkingCountdownEl.textContent = `${remaining}s`;
+    sendBtnRestLabel = "Please Wait…";
+    sendBtnArrowVisible = false;
+    setSendBtnEnabled(false);
+    setSendingState(false);
+
+    checkingInterval = window.setInterval(() => {
+      remaining -= 1;
+      if (remaining <= 0) {
+        window.clearInterval(checkingInterval);
+        checkingInterval = undefined;
+        checkingSpinner.classList.add("hidden");
+        setCheckingBoxState("error");
+        checkingStatusEl.textContent = "Detail Check Error";
+        checkingCountdownEl.textContent = "";
+        sendBtnRestLabel = "Verify Now";
+        sendBtnArrowVisible = false;
+        setSendBtnEnabled(true);
+        setSendingState(false);
+      } else {
+        checkingCountdownEl.textContent = `${remaining}s`;
+      }
+    }, 1000);
+  }
+
+  function stopCheckingCountdown() {
+    if (checkingInterval !== undefined) {
+      window.clearInterval(checkingInterval);
+      checkingInterval = undefined;
+    }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-free-back-to]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      stopCheckingCountdown();
+      confirmationInProgress = false;
+      if (phoneCheckingTimer !== undefined) {
+        window.clearTimeout(phoneCheckingTimer);
+        phoneCheckingTimer = undefined;
+      }
+      hidePhoneCheckingOverlay();
+      closeConfirmPhoneModal();
+    });
+  });
 
   function openSuccessPopup() {
     successPopupOverlay.classList.remove("hidden");
@@ -458,7 +1128,13 @@
   function setSendingState(sending: boolean) {
     sendNowBtn.disabled = sending;
     sendNowBtn.classList.toggle("pointer-events-none", sending);
-    sendNowLabel.innerHTML = sending ? 'Sending... <span class="spin-emoji">♻️</span>' : "Send Now";
+    if (sending) {
+      sendNowLabel.innerHTML = 'Sending... <span class="spin-emoji">♻️</span>';
+      sendNowArrow.classList.add("hidden");
+    } else {
+      sendNowLabel.textContent = sendBtnRestLabel;
+      sendNowArrow.classList.toggle("hidden", !sendBtnArrowVisible);
+    }
   }
 
   function showSendError(message: string) {
@@ -470,55 +1146,248 @@
     sendErrorEl.classList.add("hidden");
   }
 
-  function buildFreeRegistrationCaption(data: FreeRegistrationData): string {
-    const submissionTime = new Date().toLocaleString("en-US", {
-      dateStyle: "medium",
-      timeStyle: "short",
-    });
+  /* ---------------------------------------------------------------------
+     Phone verification (registration re-confirmation + anti-spam friction,
+     NOT real SMS or third-party phone authentication). The user simply
+     re-enters the phone number from their registration and it is compared
+     to registrationData.phone on the frontend. This gates the actual
+     "Send Information Now" submission below.
+  --------------------------------------------------------------------- */
+  let phoneConfirmed = false;
+  let confirmationAttemptCount = 0;
+  let confirmationInProgress = false;
+  let phoneCheckingTimer: number | undefined;
+  let confirmVerifyingTimer: number | undefined;
 
-    return [
-      "───────────────────────",
-      "🟢 FREE ACCESS REGISTRATION",
-      "───────────────────────",
-      "",
-      "📦 Plan: Free Access",
-      `👤 Full Name: ${data.fullName}`,
-      `📧 Email: ${data.email}`,
-      `📱 Phone: ${data.phone}`,
-      `💬 Telegram: ${data.telegram}`,
-      `🌍 Country: ${data.country}`,
-      `📊 Trading Experience: ${data.tradingExperience}`,
-      "📝 Registration Type: Free Registration",
-      `🕒 Submission Time: ${submissionTime}`,
-    ].join("\n");
+  const PHONE_CHECKING_DELAY_MS = 2500;
+  const CONFIRM_VERIFYING_DELAY_MS = 10000;
+
+  const phoneCheckingOverlay = document.getElementById("free-phone-checking-overlay") as HTMLDivElement;
+  const confirmPhoneOverlay = document.getElementById("free-confirm-phone-overlay") as HTMLDivElement;
+  const confirmPhaseResult = document.getElementById("free-confirm-phase-result") as HTMLDivElement;
+  const confirmPhaseInput = document.getElementById("free-confirm-phase-input") as HTMLDivElement;
+  const confirmPhaseLoading = document.getElementById("free-confirm-phase-loading") as HTMLDivElement;
+  const confirmPhaseSuccess = document.getElementById("free-confirm-phase-success") as HTMLDivElement;
+  const confirmSuccessIconWrap = document.getElementById("free-confirm-success-icon-wrap") as HTMLDivElement;
+  const confirmEditBtn = document.getElementById("free-confirm-phone-edit-btn") as HTMLButtonElement;
+  const confirmOpenInputBtn = document.getElementById("free-confirm-phone-btn") as HTMLButtonElement;
+  const confirmSubmitBtn = document.getElementById("free-confirm-phone-submit-btn") as HTMLButtonElement;
+  const confirmNextBtn = document.getElementById("free-confirm-phone-next-btn") as HTMLButtonElement;
+  const confirmPhoneInput = document.getElementById("free-confirm-phone-input") as HTMLInputElement;
+  const confirmPhoneError = document.getElementById("free-confirm-phone-error") as HTMLParagraphElement;
+
+  function showPhoneCheckingOverlay() {
+    phoneCheckingOverlay.classList.remove("hidden");
+  }
+
+  function hidePhoneCheckingOverlay() {
+    phoneCheckingOverlay.classList.add("hidden");
+  }
+
+  function closeConfirmPhoneModal() {
+    confirmPhoneOverlay.classList.add("hidden");
+    if (confirmVerifyingTimer !== undefined) {
+      window.clearTimeout(confirmVerifyingTimer);
+      confirmVerifyingTimer = undefined;
+    }
+  }
+
+  function openConfirmPhoneModal() {
+    confirmationAttemptCount += 1;
+
+    // Reset to the initial result phase every time the modal opens.
+    confirmPhaseResult.classList.remove("hidden");
+    confirmPhaseInput.classList.add("hidden");
+    confirmPhaseLoading.classList.add("hidden");
+    confirmPhaseSuccess.classList.add("hidden");
+    confirmSuccessIconWrap.classList.remove("tick-pop");
+    confirmPhoneInput.value = "";
+    confirmPhoneError.classList.add("hidden");
+
+    // Only the first attempt offers a shortcut back to editing information.
+    confirmEditBtn.classList.toggle("hidden", confirmationAttemptCount > 1);
+
+    confirmPhoneOverlay.classList.remove("hidden");
+  }
+
+  confirmEditBtn.addEventListener("click", () => {
+    closeConfirmPhoneModal();
+    confirmationInProgress = false;
+    stopCheckingCountdown();
+    goToFreeStep(1);
+  });
+
+  confirmOpenInputBtn.addEventListener("click", () => {
+    confirmPhaseResult.classList.add("hidden");
+    confirmPhaseInput.classList.remove("hidden");
+    confirmPhoneInput.focus();
+  });
+
+  // Digits only, capped at 11 characters — matches the existing phone
+  // validation rule used on the Information step.
+  confirmPhoneInput.addEventListener("input", () => {
+    const digitsOnly = confirmPhoneInput.value.replace(/\D/g, "").slice(0, 11);
+    if (confirmPhoneInput.value !== digitsOnly) {
+      confirmPhoneInput.value = digitsOnly;
+    }
+  });
+
+  confirmSubmitBtn.addEventListener("click", () => {
+    if (!registrationData) return;
+
+    const entered = confirmPhoneInput.value.trim();
+    if (entered.length === 0) {
+      confirmPhoneError.textContent = "Please enter your phone number.";
+      confirmPhoneError.classList.remove("hidden");
+      return;
+    }
+
+    if (entered !== registrationData.phone) {
+      confirmPhoneError.textContent = "Phone Number Does Not Match.";
+      confirmPhoneError.classList.remove("hidden");
+      return;
+    }
+
+    confirmPhoneError.classList.add("hidden");
+    confirmPhaseInput.classList.add("hidden");
+    confirmPhaseLoading.classList.remove("hidden");
+
+    if (confirmVerifyingTimer !== undefined) {
+      window.clearTimeout(confirmVerifyingTimer);
+    }
+    confirmVerifyingTimer = window.setTimeout(() => {
+      confirmVerifyingTimer = undefined;
+      confirmPhaseLoading.classList.add("hidden");
+      confirmPhaseSuccess.classList.remove("hidden");
+
+      // Replay the tick pop-in animation each time success is shown.
+      confirmSuccessIconWrap.classList.remove("tick-pop");
+      // Force reflow so the animation restarts reliably.
+      void confirmSuccessIconWrap.offsetWidth;
+      confirmSuccessIconWrap.classList.add("tick-pop");
+    }, CONFIRM_VERIFYING_DELAY_MS);
+  });
+
+  confirmNextBtn.addEventListener("click", () => {
+    closeConfirmPhoneModal();
+    phoneConfirmed = true;
+    confirmationInProgress = false;
+
+    // Swap the error box for a light-green "Verified ✓" state now that the
+    // phone number has been confirmed, and turn the button into
+    // "Confirm Registration" with a nudging arrow to guide the user.
+    setCheckingBoxState("verified");
+    checkingStatusEl.textContent = "Verified ✓";
+    sendBtnRestLabel = "Confirm Registration";
+    sendBtnArrowVisible = true;
+    setSendBtnEnabled(true);
+    setSendingState(false);
+  });
+
+  // Sends the registration to the Google Apps Script Web App API as JSON.
+  // The Apps Script is responsible for writing to the Google Sheet and
+  // forwarding to Discord — this function never talks to Discord or
+  // Telegram directly, and returns false (never throws) on any failure so
+  // the caller can show the existing error UI.
+  const FREE_REGISTRATION_TIMEOUT_MS = 15000;
+
+  async function submitFreeRegistration(data: FreeRegistrationData): Promise<boolean> {
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), FREE_REGISTRATION_TIMEOUT_MS);
+
+    try {
+      const response = await fetch(FREE_REGISTRATION_API_URL, {
+        method: "POST",
+        // NOTE: intentionally "text/plain", not "application/json".
+        // Sending JSON with an application/json header triggers a CORS
+        // preflight (OPTIONS) request, which Google Apps Script web apps
+        // do not handle — the browser then blocks the whole request
+        // before it ever reaches the script. text/plain counts as a
+        // "simple request" so no preflight happens; Apps Script's
+        // doPost(e) should parse the body with JSON.parse(e.postData.contents).
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(data),
+        signal: controller.signal,
+      });
+
+      if (!response.ok) {
+        console.error("Free registration API returned an error status:", response.status);
+        return false;
+      }
+
+      let result: any = null;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        console.error("Free registration API returned invalid JSON:", parseError);
+        return false;
+      }
+
+      // Accept the common success shapes Apps Script web apps return.
+      // Adjust this check to match your Apps Script's actual response if
+      // it differs.
+      const isExplicitFailure =
+        result && (result.success === false || result.status === "error" || result.error);
+
+      if (isExplicitFailure) {
+        console.error("Free registration API reported failure:", result);
+        return false;
+      }
+
+      // A 200 OK with a parseable JSON body and no explicit error/failure
+      // field is treated as success. If your Apps Script always returns a
+      // success flag (e.g. { success: true }), you can tighten this to
+      // `return result?.success === true;` instead.
+      return true;
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        console.error("Free registration submission timed out.");
+      } else {
+        console.error("Free registration submission failed:", error);
+      }
+      return false;
+    } finally {
+      window.clearTimeout(timeoutId);
+    }
   }
 
   sendNowBtn.addEventListener("click", async () => {
-    if (sendNowBtn.disabled || !registrationData) return;
+    if (sendNowBtn.disabled || !registrationData || confirmationInProgress) return;
 
+    // Phone not yet confirmed for this registration: run the brief checking
+    // state, then require the user to (re)confirm their phone number before
+    // any submission happens. This is a frontend re-confirmation / anti-spam
+    // step only — no submission logic runs here.
+    if (!phoneConfirmed) {
+      confirmationInProgress = true;
+      clearSendError();
+      setSendBtnEnabled(false);
+      showPhoneCheckingOverlay();
+
+      phoneCheckingTimer = window.setTimeout(() => {
+        phoneCheckingTimer = undefined;
+        hidePhoneCheckingOverlay();
+        setSendBtnEnabled(true);
+        openConfirmPhoneModal();
+      }, PHONE_CHECKING_DELAY_MS);
+
+      return;
+    }
+
+    // Phone already confirmed for this registration — proceed with the
+    // actual submission to the Google Apps Script API.
     setSendingState(true);
     clearSendError();
 
     try {
-      const caption = buildFreeRegistrationCaption(registrationData);
-      const joiningImage = await fetchAssetAsFile("/free-joining.png", "free-joining.png");
-
-      let popupShown = false;
-      const showSuccessOnce = () => {
-        if (!popupShown) {
-          popupShown = true;
-          openSuccessPopup();
-          setSendingState(false);
-        }
-      };
-
-      const succeeded = await submitWithFailover(joiningImage, caption, showSuccessOnce);
+      const succeeded = await submitFreeRegistration(registrationData);
 
       if (!succeeded) {
         showSendError("Submission failed. Please check your connection and try again.");
         setSendingState(false);
       } else {
-        showSuccessOnce();
+        openSuccessPopup();
+        setSendingState(false);
       }
     } catch (error) {
       console.error("Unexpected free registration submission error:", error);
