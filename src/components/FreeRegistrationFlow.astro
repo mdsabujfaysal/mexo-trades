@@ -1289,7 +1289,11 @@
   // forwarding to Discord — this function never talks to Discord or
   // Telegram directly, and returns false (never throws) on any failure so
   // the caller can show the existing error UI.
-  const FREE_REGISTRATION_TIMEOUT_MS = 15000;
+  // Matches the backend's up-to-1-minute Discord retry loop (see Code.gs),
+  // plus buffer for the Sheet write and network overhead — so the browser
+  // doesn't abort and show a false "failed" error while the backend is
+  // still legitimately retrying in the background.
+  const FREE_REGISTRATION_TIMEOUT_MS = 70000;
 
   async function submitFreeRegistration(data: FreeRegistrationData): Promise<boolean> {
     const controller = new AbortController();
