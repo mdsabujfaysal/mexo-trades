@@ -1,0 +1,615 @@
+---
+// Premium, Trustpilot-inspired student reviews section for MEXO.
+// Frontend-only demo: all data is static below. No backend, no submission
+// form, no external review widget. Filtering/sorting run entirely client
+// side against this local array.
+//
+// To add/edit a review, only this file needs to change — edit the
+// `reviews` array.
+
+interface Review {
+  id: string;
+  name: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+  review: string;
+  category: "trading" | "technical-analysis" | "risk-management";
+  courseLabel: string;
+  date: string; // display label, e.g. "August 2026"
+  dateValue: string; // ISO date used for sorting
+  location: string;
+  verified: boolean;
+}
+
+const reviews: Review[] = [
+  {
+    id: "rakib-hasan",
+    name: "Md Rakib Hasan",
+    rating: 5,
+    review:
+      "Age ami shudhu onnoder signal follow kortam, nije kisu bujhtam na. MEXO-te join korar por prothombar bujhlam keno ekta trade nicchi, keno out hocchi. Ekhon loss holeo shanto thaki, karon jani bhulta thik kothay hoyeche.",
+    category: "trading",
+    courseLabel: "Trading Foundation · Batch 4",
+    date: "August 2026",
+    dateValue: "2026-08-05",
+    location: "Dhaka",
+    verified: true,
+  },
+  {
+    id: "nusrat-jahan",
+    name: "Nusrat Jahan",
+    rating: 5,
+    review:
+      "Sobcheye boro shikkha holo position size. Age ek trade-e pura account jhukite feltam. Ekhon 1-2% er beshi risk nei na, ar ei choto poriborton-tai amar account-ta bachiyeche.",
+    category: "risk-management",
+    courseLabel: "Risk Management Track",
+    date: "July 2026",
+    dateValue: "2026-07-14",
+    location: "Chattogram",
+    verified: true,
+  },
+  {
+    id: "tanvir-ahmed",
+    name: "Tanvir Ahmed",
+    rating: 4,
+    review:
+      "চার্ট দেখলে আগে শুধু লাইন আর মোমবাতি দেখতাম, কিছু বুঝতাম না। এখন structure আর order block চিনতে পারি। এখনো পুরোপুরি expert না, কিন্তু আগের চেয়ে অনেক আত্মবিশ্বাসী লাগে।",
+    category: "technical-analysis",
+    courseLabel: "Technical Analysis · Batch 2",
+    date: "June 2026",
+    dateValue: "2026-06-02",
+    location: "Sylhet",
+    verified: true,
+  },
+  {
+    id: "sharmin-akter",
+    name: "Sharmin Akter",
+    rating: 4,
+    review:
+      "Mentor-দের response time মাঝে মাঝে একটু দেরি হয়, কিন্তু session-গুলো সত্যিই কাজের। যেটা ভালো লাগে সেটা হলো কেউ আমাকে \u201cguaranteed profit\u201d বলে না, সবাই বাস্তবতা নিয়ে কথা বলে।",
+    category: "trading",
+    courseLabel: "Trading Foundation · Batch 3",
+    date: "May 2026",
+    dateValue: "2026-05-20",
+    location: "Rajshahi",
+    verified: true,
+  },
+  {
+    id: "imtiaz-hossain",
+    name: "Imtiaz Hossain",
+    rating: 5,
+    review:
+      "প্রথম তিন মাস শুধু demo-তে trade করতে বলা হয়েছিল, তখন বিরক্ত লাগতো। এখন বুঝি কেন — টাকা হারানোর ভয় ছাড়াই আমার discipline-টা তৈরি হয়েছে।",
+    category: "risk-management",
+    courseLabel: "Risk Management Track",
+    date: "August 2026",
+    dateValue: "2026-08-01",
+    location: "Khulna",
+    verified: true,
+  },
+  {
+    id: "farzana-islam",
+    name: "Farzana Islam",
+    rating: 4,
+    review:
+      "Course-টা যতটা expect করেছিলাম তার চেয়ে গভীর। শুরুতে অনেক term মাথার উপর দিয়ে গেছে, সত্যি বলতে। ধৈর্য ধরে দুইবার revise করার পর জিনিসগুলো ধীরে ধীরে clear হয়েছে।",
+    category: "technical-analysis",
+    courseLabel: "Technical Analysis · Batch 1",
+    date: "April 2026",
+    dateValue: "2026-04-11",
+    location: "Barishal",
+    verified: true,
+  },
+  {
+    id: "rafsan-zaman",
+    name: "Rafsan Zaman",
+    rating: 5,
+    review:
+      "এত গর্ব হয় বলতে যে নিজের ইনকামের একটা অংশ এখন ট্রেডিং থেকে আসে। মাঝে মাঝে নিজের কাছেই স্বপ্নের মতো লাগে, অথচ পুরোটাই ধাপে ধাপে শেখা।",
+    category: "trading",
+    courseLabel: "Trading Foundation · Batch 5",
+    date: "August 2026",
+    dateValue: "2026-08-18",
+    location: "Kishoreganj",
+    verified: true,
+  },
+  {
+    id: "shakil-reza",
+    name: "Shakil Reza",
+    rating: 5,
+    review:
+      "সত্যি বলতে মাঝে মাঝে চোখে পানি চলে আসে যখন ভাবি কতটা হতাশ ছিলাম, আর এখন ট্রেড নেওয়ার আগে কতটা কনফিডেন্ট লাগে।",
+    category: "trading",
+    courseLabel: "Trading Foundation · Batch 2",
+    date: "July 2026",
+    dateValue: "2026-07-02",
+    location: "Rangpur",
+    verified: true,
+  },
+  {
+    id: "iftekhar-alam",
+    name: "Iftekhar Alam",
+    rating: 5,
+    review:
+      "মেন্টরের কথা বলার ধরনটাই মন ভালো করে দেয়। কখনো হতাশ লাগলে গ্রুপ থেকেই মোটিভেশন পাই, একা লড়ছি এমন মনে হয় না।",
+    category: "risk-management",
+    courseLabel: "Risk Management Track",
+    date: "June 2026",
+    dateValue: "2026-06-25",
+    location: "Kurigram",
+    verified: true,
+  },
+];
+
+// Top slider rolls through every review, one at a time, every 5s.
+// The grid below also shows the full list (with its own filter/sort).
+const sliderReviews = reviews;
+const gridReviews = reviews;
+
+// Avatar initials are derived from the (English) name so nothing
+// Bangla-script ever ends up in the profile UI.
+function getInitials(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+const ratingDistribution = [
+  { stars: 5, pct: 84 },
+  { stars: 4, pct: 11 },
+  { stars: 3, pct: 3 },
+  { stars: 2, pct: 1 },
+  { stars: 1, pct: 1 },
+];
+
+const filters = [
+  { key: "all", label: "All Reviews" },
+  { key: "5", label: "5 Star" },
+  { key: "4", label: "4 Star" },
+  { key: "trading", label: "Trading" },
+  { key: "technical-analysis", label: "Technical Analysis" },
+  { key: "risk-management", label: "Risk Management" },
+];
+
+// Small helper so star markup isn't repeated inline everywhere.
+function starPath() {
+  return "M12 2.5l2.9 6.06 6.6.83-4.86 4.55 1.28 6.6L12 17.5l-5.92 3.04 1.28-6.6L2.5 9.39l6.6-.83L12 2.5z";
+}
+---
+
+<section id="student-reviews" class="relative overflow-hidden bg-gradient-to-b from-emerald-50/50 via-white to-white py-20">
+  <!-- Decorative backdrop: soft mint blobs + fine dotted texture -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div class="absolute -left-24 -top-24 h-80 w-80 rounded-full bg-emerald-200/30 blur-3xl"></div>
+    <div class="absolute -right-16 top-40 h-72 w-72 rounded-full bg-emerald-100/50 blur-3xl"></div>
+    <div
+      class="absolute inset-x-0 top-0 h-72 opacity-[0.35]"
+      style="background-image: radial-gradient(circle, #059669 1px, transparent 1px); background-size: 22px 22px; mask-image: linear-gradient(to bottom, black, transparent);"
+    ></div>
+  </div>
+
+  <div id="reviews-animate" class="relative mx-auto max-w-6xl px-6 translate-y-10 opacity-0 transition-all duration-700 ease-out">
+    <!-- 1. Header -->
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="text-xs font-bold uppercase tracking-[0.2em] text-emerald-600">Student Reviews</p>
+      <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+        What Our Students Say
+      </h2>
+      <p class="mt-4 text-base leading-relaxed text-slate-600">
+        Real experiences from students learning, practicing, and growing with MEXO.
+      </p>
+    </div>
+
+    <!-- 2. Overall Rating Card -->
+    <div class="mt-12 rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-[0_20px_50px_-20px_rgba(15,23,42,0.15)] backdrop-blur-sm sm:p-10">
+      <div class="grid gap-10 sm:grid-cols-[auto_1px_1fr] sm:items-center">
+        <!-- Score -->
+        <div class="text-center sm:text-left">
+          <p class="text-6xl font-extrabold tracking-tight text-slate-900">4.8</p>
+          <div class="mt-3 flex items-center justify-center gap-1 sm:justify-start" aria-hidden="true">
+            {Array.from({ length: 5 }).map(() => (
+              <svg viewBox="0 0 24 24" class="h-5 w-5 fill-amber-400">
+                <path d={starPath()} />
+              </svg>
+            ))}
+          </div>
+          <p class="mt-2 text-sm font-medium text-slate-500">Based on 128 student reviews</p>
+        </div>
+
+        <!-- Divider -->
+        <div class="hidden h-full w-px bg-slate-200 sm:block"></div>
+
+        <!-- Distribution bars -->
+        <div class="space-y-2.5">
+          {ratingDistribution.map((row) => (
+            <div class="flex items-center gap-3">
+              <span class="w-10 shrink-0 text-xs font-semibold text-slate-500">{row.stars} ★</span>
+              <div class="h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
+                <div
+                  class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400"
+                  style={`width: ${row.pct}%`}
+                ></div>
+              </div>
+              <span class="w-9 shrink-0 text-right text-xs font-semibold text-slate-500">{row.pct}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Trust / Verification Area -->
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-medium text-slate-600">
+      {["Verified Student", "Real Learning Experience", "MEXO Student Community"].map((label) => (
+        <span class="inline-flex items-center gap-2">
+          <svg viewBox="0 0 20 20" class="h-4 w-4 flex-shrink-0 fill-emerald-600">
+            <path d="M8.3 13.7 4.9 10.3l1.4-1.4 2 2 5.4-5.4 1.4 1.4z" />
+            <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" stroke-width="1.3" class="text-emerald-200" />
+          </svg>
+          {label}
+        </span>
+      ))}
+    </div>
+
+    <!-- 5. Featured Review Slider (3 reviews, auto-advances every 5s) -->
+    <div
+      id="featured-slider"
+      class="relative mt-14 overflow-hidden rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50/70 via-white to-white shadow-[0_20px_50px_-20px_rgba(5,150,105,0.25)]"
+    >
+      <svg viewBox="0 0 60 44" class="pointer-events-none absolute left-6 top-6 h-14 w-14 fill-emerald-100 sm:left-10 sm:top-10" aria-hidden="true">
+        <path d="M17.4 0C7.8 3.6 0 13.6 0 24.6 0 34.6 6.8 42 15.6 42c6.6 0 11.6-5 11.6-11.6 0-6-4.2-10.4-9.8-10.4-1 0-2 .2-2.8.4C15.8 13 19.6 6.8 26 2.6L17.4 0zm33 0c-9.6 3.6-17.4 13.6-17.4 24.6 0 10 6.8 17.4 15.6 17.4C55.2 42 60 37 60 30.4c0-6-4.2-10.4-9.8-10.4-1 0-2 .2-2.8.4C48.8 13 52.6 6.8 59 2.6L50.4 0z" />
+      </svg>
+
+      <div id="featured-track" class="flex transition-transform duration-700 ease-in-out">
+        {sliderReviews.map((f) => (
+          <div class="w-full flex-shrink-0 p-8 sm:p-12">
+            <div class="relative">
+              <div class="flex items-center gap-1" aria-hidden="true">
+                {Array.from({ length: f.rating }).map(() => (
+                  <svg viewBox="0 0 24 24" class="h-5 w-5 fill-amber-400">
+                    <path d={starPath()} />
+                  </svg>
+                ))}
+              </div>
+
+              <p class="mt-5 max-w-3xl text-lg font-medium leading-relaxed text-slate-800 sm:text-xl">
+                {f.review}
+              </p>
+
+              <div class="mt-7 flex items-center gap-4">
+                <span class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-emerald-600 text-sm font-bold text-white">
+                  {getInitials(f.name)}
+                </span>
+                <div>
+                  <p class="flex items-center gap-2 font-bold text-slate-900">
+                    {f.name}
+                    {f.verified && (
+                      <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700">
+                        <svg viewBox="0 0 20 20" class="h-3 w-3 fill-emerald-600"><path d="M8.3 13.7 4.9 10.3l1.4-1.4 2 2 5.4-5.4 1.4 1.4z" /></svg>
+                        Verified Student
+                      </span>
+                    )}
+                  </p>
+                  <p class="text-sm text-slate-500">{f.courseLabel} &middot; {f.location} &middot; {f.date}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Dot indicators -->
+      <div class="relative flex flex-wrap items-center justify-center gap-2 px-6 pb-6" role="tablist" aria-label="Featured reviews">
+        {sliderReviews.map((_, i) => (
+          <button
+            type="button"
+            data-slide-dot={i}
+            aria-label={`Show featured review ${i + 1}`}
+            class:list={[
+              "h-2 rounded-full transition-all duration-300",
+              i === 0 ? "w-6 bg-emerald-600" : "w-2 bg-emerald-200",
+            ]}
+          ></button>
+        ))}
+      </div>
+    </div>
+
+    <!-- 6. Filter / Sort bar -->
+    <div class="mt-14 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div id="review-filters" class="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap sm:overflow-visible">
+        {filters.map((f, i) => (
+          <button
+            type="button"
+            data-filter={f.key}
+            aria-pressed={i === 0 ? "true" : "false"}
+            class:list={[
+              "flex-shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition-colors duration-200",
+              i === 0
+                ? "border-emerald-600 bg-emerald-600 text-white"
+                : "border-slate-200 bg-white text-slate-600 hover:border-emerald-300 hover:text-emerald-700",
+            ]}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      <label class="flex shrink-0 items-center gap-2 text-sm font-medium text-slate-600">
+        Sort by
+        <select
+          id="review-sort"
+          class="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 outline-none transition-colors focus:border-emerald-400"
+        >
+          <option value="recent">Most Recent</option>
+          <option value="rating">Highest Rated</option>
+        </select>
+      </label>
+    </div>
+
+    <!-- 7. Review grid: first 3 shown in one row; the rest expand below on demand -->
+    <div
+      id="reviews-primary"
+      class="mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:snap-none sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
+    >
+      {gridReviews.map((r) => (
+        <article
+          data-rating={r.rating}
+          data-category={r.category}
+          data-date={r.dateValue}
+          class="group flex w-[85vw] flex-shrink-0 snap-start flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:w-auto"
+        >
+          <div class="flex items-start justify-between">
+            <svg viewBox="0 0 32 24" class="h-6 w-8 fill-slate-200" aria-hidden="true">
+              <path d="M9.3 0C4.2 1.9 0 7.3 0 13.1 0 18.4 3.6 22.4 8.3 22.4c3.5 0 6.2-2.7 6.2-6.2 0-3.2-2.2-5.5-5.2-5.5-.5 0-1 .1-1.5.2C8.4 7 10.4 3.6 13.9 1.4L9.3 0zm17.6 0C21.8 1.9 17.6 7.3 17.6 13.1c0 5.3 3.6 9.3 8.3 9.3 3.5 0 6.1-2.7 6.1-6.2 0-3.2-2.2-5.5-5.2-5.5-.5 0-1 .1-1.4.2C26.1 7 28.1 3.6 31.6 1.4L27 0z" />
+            </svg>
+            <div class="flex items-center gap-0.5" aria-label={`${r.rating} out of 5 stars`}>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <svg
+                  viewBox="0 0 24 24"
+                  class:list={["h-4 w-4 transition-transform duration-150 group-hover:scale-110", i < r.rating ? "fill-amber-400" : "fill-slate-200"]}
+                >
+                  <path d={starPath()} />
+                </svg>
+              ))}
+            </div>
+          </div>
+
+          <p class="mt-4 flex-1 text-[15px] leading-relaxed text-slate-700">{r.review}</p>
+
+          <div class="mt-6 flex items-center gap-3 border-t border-slate-100 pt-4">
+            <span class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-emerald-50 text-xs font-bold text-emerald-700">
+              {getInitials(r.name)}
+            </span>
+            <div class="min-w-0">
+              <p class="flex items-center gap-1.5 truncate text-sm font-bold text-slate-900">
+                {r.name}
+                {r.verified && (
+                  <svg viewBox="0 0 20 20" class="h-3.5 w-3.5 flex-shrink-0 fill-emerald-600" aria-label="Verified Student">
+                    <path d="M8.3 13.7 4.9 10.3l1.4-1.4 2 2 5.4-5.4 1.4 1.4z" />
+                    <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" stroke-width="1.3" class="text-emerald-200" />
+                  </svg>
+                )}
+              </p>
+              <p class="truncate text-xs text-slate-500">{r.courseLabel} &middot; {r.location}</p>
+            </div>
+            <span class="ml-auto flex-shrink-0 text-xs text-slate-400">{r.date}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Toggle to reveal the rest of the reviews below -->
+    <div class="mt-6 flex justify-center">
+      <button
+        type="button"
+        id="reviews-toggle"
+        class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-sm font-semibold text-emerald-700 shadow-sm transition-colors duration-200 hover:border-emerald-400 hover:bg-emerald-50"
+      >
+        <span id="reviews-toggle-label">More Reviews</span>
+        <svg
+          id="reviews-toggle-icon"
+          viewBox="0 0 20 20"
+          class="h-4 w-4 flex-shrink-0 fill-none stroke-current transition-transform duration-300"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5.5 7.5 10 12l4.5-4.5" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Collapsed by default; expands open to reveal the remaining reviews -->
+    <div id="reviews-extra-wrapper" class="overflow-hidden transition-[max-height] duration-500 ease-in-out" style="max-height: 0px;">
+      <div
+        id="reviews-extra"
+        class="mt-5 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:snap-none sm:overflow-visible sm:pb-0 lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
+      >
+      </div>
+    </div>
+
+    <p id="reviews-empty" class="mt-10 hidden text-center text-sm font-medium text-slate-500">
+      No reviews match this filter yet.
+    </p>
+  </div>
+</section>
+
+<script>
+  // Slide-up-and-fade-in animation the first time this section scrolls into view.
+  const reviewsAnimatedEl = document.getElementById("reviews-animate");
+  if (reviewsAnimatedEl) {
+    const reviewsObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            reviewsAnimatedEl.classList.remove("translate-y-10", "opacity-0");
+            reviewsAnimatedEl.classList.add("translate-y-0", "opacity-100");
+          } else {
+            reviewsAnimatedEl.classList.add("translate-y-10", "opacity-0");
+            reviewsAnimatedEl.classList.remove("translate-y-0", "opacity-100");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    reviewsObserver.observe(reviewsAnimatedEl);
+  }
+
+  // Frontend-only filter + sort over the static review cards above.
+  // No network calls, no backend — everything runs against the DOM.
+  const primaryGrid = document.getElementById("reviews-primary");
+  const extraGrid = document.getElementById("reviews-extra");
+  const extraWrapper = document.getElementById("reviews-extra-wrapper");
+  const toggleBtn = document.getElementById("reviews-toggle");
+  const toggleLabel = document.getElementById("reviews-toggle-label");
+  const toggleIcon = document.getElementById("reviews-toggle-icon");
+  const filterBar = document.getElementById("review-filters");
+  const sortSelect = document.getElementById("review-sort") as HTMLSelectElement | null;
+  const emptyState = document.getElementById("reviews-empty");
+
+  if (primaryGrid && extraGrid && extraWrapper && toggleBtn && toggleLabel && toggleIcon && filterBar && sortSelect && emptyState) {
+    // All cards start out inside the primary row on the server-rendered
+    // markup; layoutCards() below moves the overflow into the collapsible
+    // "extra" section on load and every time the filter/sort changes.
+    let cards = Array.from(primaryGrid.querySelectorAll<HTMLElement>("article[data-rating]"));
+    let activeFilter = "all";
+    let expanded = false;
+
+    // Only the first 3 currently-matching cards stay in the always-visible
+    // row; anything beyond that goes into the collapsible "extra" section.
+    function layoutCards() {
+      let visibleIndex = 0;
+      cards.forEach((card) => {
+        const isHidden = card.classList.contains("hidden");
+        if (!isHidden && visibleIndex < 3) {
+          primaryGrid!.appendChild(card);
+        } else {
+          extraGrid!.appendChild(card);
+        }
+        if (!isHidden) visibleIndex++;
+      });
+
+      const hasExtra = visibleIndex > 3;
+      toggleBtn!.classList.toggle("hidden", !hasExtra);
+      if (!hasExtra) {
+        expanded = false;
+        toggleLabel!.textContent = "More Reviews";
+        toggleIcon!.classList.remove("rotate-180");
+      }
+      updateExtraHeight();
+    }
+
+    function updateExtraHeight() {
+      extraWrapper!.style.maxHeight = expanded ? `${extraGrid!.scrollHeight}px` : "0px";
+    }
+
+    function applyFilter() {
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const rating = card.dataset.rating;
+        const category = card.dataset.category;
+        const matches =
+          activeFilter === "all" ||
+          activeFilter === rating ||
+          activeFilter === category;
+        card.classList.toggle("hidden", !matches);
+        if (matches) visibleCount++;
+      });
+      emptyState.classList.toggle("hidden", visibleCount > 0);
+      layoutCards();
+    }
+
+    function applySort() {
+      const mode = sortSelect!.value;
+      cards = [...cards].sort((a, b) => {
+        if (mode === "rating") {
+          return Number(b.dataset.rating) - Number(a.dataset.rating);
+        }
+        return (b.dataset.date ?? "").localeCompare(a.dataset.date ?? "");
+      });
+      layoutCards();
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      expanded = !expanded;
+      toggleLabel.textContent = expanded ? "Show Less Reviews" : "More Reviews";
+      toggleIcon.classList.toggle("rotate-180", expanded);
+      updateExtraHeight();
+    });
+
+    // If the viewport is resized while expanded (e.g. text reflows to more
+    // lines), keep the "auto height" illusion accurate.
+    window.addEventListener("resize", () => {
+      if (expanded) updateExtraHeight();
+    });
+
+    // Featured review slider: 3 slides, auto-advance every 5s.
+    const sliderRoot = document.getElementById("featured-slider");
+    const track = document.getElementById("featured-track");
+    if (sliderRoot && track) {
+      const dots = Array.from(sliderRoot.querySelectorAll<HTMLButtonElement>("button[data-slide-dot]"));
+      const slideCount = dots.length;
+      let current = 0;
+      let timer: ReturnType<typeof setInterval> | null = null;
+
+      function goTo(index: number) {
+        current = (index + slideCount) % slideCount;
+        track!.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((dot, i) => {
+          const active = i === current;
+          dot.classList.toggle("w-6", active);
+          dot.classList.toggle("bg-emerald-600", active);
+          dot.classList.toggle("w-2", !active);
+          dot.classList.toggle("bg-emerald-200", !active);
+        });
+      }
+
+      function start() {
+        if (slideCount > 1) {
+          timer = setInterval(() => goTo(current + 1), 5000);
+        }
+      }
+
+      function stop() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => {
+          goTo(i);
+          stop();
+          start();
+        });
+      });
+
+      sliderRoot.addEventListener("mouseenter", stop);
+      sliderRoot.addEventListener("mouseleave", start);
+
+      start();
+    }
+
+    filterBar.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-filter]");
+      if (!btn) return;
+      activeFilter = btn.dataset.filter ?? "all";
+      filterBar.querySelectorAll("button[data-filter]").forEach((b) => {
+        const isActive = b === btn;
+        b.setAttribute("aria-pressed", String(isActive));
+        b.classList.toggle("border-emerald-600", isActive);
+        b.classList.toggle("bg-emerald-600", isActive);
+        b.classList.toggle("text-white", isActive);
+        b.classList.toggle("border-slate-200", !isActive);
+        b.classList.toggle("bg-white", !isActive);
+        b.classList.toggle("text-slate-600", !isActive);
+      });
+      applyFilter();
+    });
+
+    sortSelect.addEventListener("change", applySort);
+
+    // Initial split: first 3 stay put, the rest move into the collapsed section.
+    layoutCards();
+  }
+</script>

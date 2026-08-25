@@ -19,6 +19,12 @@ export interface ProfessionalInfoItem {
   value: string;
 }
 
+export interface SocialLinks {
+  facebook?: string;
+  linkedin?: string;
+  instagram?: string;
+}
+
 export interface TeamMember {
   slug: string; // used in the route: /team/{slug}
   name: string;
@@ -29,6 +35,7 @@ export interface TeamMember {
   bio: string;
   professionalInfo: ProfessionalInfoItem[];
   certificates: Certificate[];
+  social?: SocialLinks; // [Add ...] fill in when social profile links are ready
 }
 
 export const team: TeamMember[] = [

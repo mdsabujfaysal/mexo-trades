@@ -1,93 +1,417 @@
 ---
-const faqs = [
+// MEXO Trades — Premium Help Center / FAQ experience.
+// Everything lives in this one hero panel: the right-side card is the
+// entire FAQ (all questions), searched from the left search box and
+// filtered by the popular-topic pills. Clicking a question expands its
+// answer right there — only one open at a time — nothing navigates
+// away and nothing lives further down the page. Frontend-only.
+
+type Category =
+  | "getting-started"
+  | "course-access"
+  | "payment"
+  | "mentorship"
+  | "trading"
+  | "policies";
+
+interface FAQItem {
+  id: string;
+  category: Category;
+  question: string;
+  answer: string;
+}
+
+const faqs: FAQItem[] = [
   {
+    id: "beginners",
+    category: "getting-started",
     question: "Is This Mentorship For Beginners?",
     answer:
       "Yes. The Standard Mentorship is designed for beginners with little or no trading experience.",
   },
   {
+    id: "access",
+    category: "course-access",
     question: "How Will I Access The Mentorship?",
     answer:
       "Everything is managed through Telegram. No website login or password is required.",
   },
   {
+    id: "payment",
+    category: "payment",
     question: "How Can I Make A Payment?",
     answer:
-      "We accept secure payments via bKash, Nagad, Rocket, Binance UID, and USDT (TRC20/BEP20).",
+      "We accept secure payments via bKash, Nagad, Rocket, Binance ID, and USDT (TRC20/BEP20).",
   },
   {
+    id: "standard-premium",
+    category: "mentorship",
     question: "What's The Difference Between Standard & Premium?",
     answer:
       "Premium includes everything in Standard, plus advanced market concepts, one-to-one support, live entry verification, and Prop Firm challenge guidance.",
   },
   {
+    id: "guarantee",
+    category: "trading",
     question: "Do You Guarantee Profits Or Offer Refunds?",
     answer:
       "No. Trading involves risk. We do not guarantee profits, payouts, or refunds after enrollment.",
   },
   {
+    id: "share-record",
+    category: "policies",
     question: "Can I Share Or Record The Mentorship?",
     answer:
       "No. Sharing, recording, or redistributing any mentorship content is strictly prohibited.",
   },
   {
+    id: "rules",
+    category: "policies",
     question: "What If A Student Breaks The Rules?",
     answer:
       "Students are expected to maintain a respectful and professional learning environment. A warning will be issued for any disruptive or inappropriate behavior. Continued violations may result in permanent removal from the mentorship without prior notice. All enrollments are final, and no refund will be provided.",
   },
 ];
+
+// Popular-topic pills filter the right-side list by category. Clicking
+// an already-active pill clears the filter back to "all".
+const popularTopics: { label: string; target: Category }[] = [
+  { label: "Trading Basics", target: "getting-started" },
+  { label: "Mentorship", target: "mentorship" },
+  { label: "Payment", target: "payment" },
+  { label: "Course Access", target: "course-access" },
+  { label: "Risk Management", target: "trading" },
+];
 ---
 
-<section id="faq" class="bg-slate-50 py-20">
-  <div id="faq-animate" class="mx-auto max-w-3xl translate-y-10 px-6 opacity-0 transition-all duration-700 ease-out">
-    <div class="text-center">
-      <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-        Frequently Asked Questions
-      </h2>
+<section id="faq" class="relative overflow-hidden bg-white">
+  <div class="relative overflow-hidden bg-gradient-to-b from-blue-50/70 via-white to-white py-20 sm:py-28">
+    <!-- Background system: thin grid, soft glows, sparkline motif -->
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div
+        class="absolute inset-0 opacity-[0.35]"
+        style="background-image: linear-gradient(to right, #E2E8F0 1px, transparent 1px), linear-gradient(to bottom, #E2E8F0 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);"
+      ></div>
+      <div class="absolute -left-32 top-0 h-96 w-96 rounded-full bg-blue-200/30 blur-3xl"></div>
+      <div class="absolute -right-24 top-24 h-80 w-80 rounded-full bg-emerald-200/25 blur-3xl"></div>
+      <svg
+        class="absolute inset-x-0 top-8 h-40 w-full opacity-[0.18] sm:top-4"
+        viewBox="0 0 1200 200"
+        preserveAspectRatio="none"
+        fill="none"
+      >
+        <path
+          d="M0 140 L60 120 L120 150 L180 90 L240 110 L300 60 L360 95 L420 55 L480 80 L540 40 L600 70 L660 30 L720 65 L780 45 L840 85 L900 50 L960 75 L1020 35 L1080 60 L1140 25 L1200 55"
+          stroke="#2563EB"
+          stroke-width="2"
+        />
+        <g stroke="#059669" stroke-width="2">
+          <line x1="120" y1="130" x2="120" y2="170" />
+          <line x1="300" y1="45" x2="300" y2="80" />
+          <line x1="480" y1="65" x2="480" y2="100" />
+          <line x1="660" y1="15" x2="660" y2="50" />
+          <line x1="840" y1="70" x2="840" y2="105" />
+          <line x1="1020" y1="20" x2="1020" y2="55" />
+        </g>
+      </svg>
     </div>
 
-    <div class="mt-12 space-y-4">
-      {
-        faqs.map((faq) => (
-          <details class="group rounded-xl border border-slate-200 bg-white p-6 open:border-blue-200">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-md font-semibold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700">
-              {faq.question}
-              <svg
-                class="h-5 w-5 flex-none text-slate-400 transition-transform group-open:rotate-45"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-                focusable="false"
+    <div id="faq-animate" class="relative mx-auto max-w-6xl px-6 translate-y-10 opacity-0 transition-all duration-700 ease-out">
+      <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-8">
+        <!-- Left: heading, description, search, popular topics -->
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.25em] text-blue-700">Frequently Asked Questions</p>
+
+          <h1 class="mt-4 text-4xl font-extrabold leading-[1.05] tracking-tight text-[#0B1B33] sm:text-5xl">
+            How can we help<br class="hidden sm:block" /> you today?
+          </h1>
+
+          <p class="mt-6 max-w-lg text-base leading-relaxed text-slate-600 sm:text-lg">
+            Find answers about our mentorship, courses, payments, access, and everything you need to know about learning with MEXO.
+          </p>
+
+          <div class="relative mt-8 max-w-xl">
+            <svg
+              class="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <circle cx="9" cy="9" r="6.25" />
+              <path d="m17 17-3.6-3.6" stroke-linecap="round" />
+            </svg>
+            <input
+              id="faq-search"
+              type="text"
+              placeholder="Search questions, guides, and answers..."
+              class="w-full rounded-2xl border border-slate-200 bg-white py-4 pl-14 pr-5 text-[15px] text-slate-800 placeholder:text-slate-400 shadow-[0_20px_45px_-25px_rgba(15,23,42,0.35)] outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+            />
+          </div>
+
+          <div class="mt-5 flex flex-wrap items-center gap-2">
+            <span class="mr-1 text-xs font-semibold uppercase tracking-wide text-slate-400">Popular</span>
+            {popularTopics.map((topic) => (
+              <button
+                type="button"
+                data-topic={topic.target}
+                aria-pressed="false"
+                class="rounded-full border border-slate-200 bg-white/80 px-4 py-1.5 text-sm font-medium text-slate-600 backdrop-blur-sm transition-colors hover:border-blue-300 hover:text-blue-700 aria-[pressed=true]:border-blue-700 aria-[pressed=true]:bg-blue-700 aria-[pressed=true]:text-white"
               >
-                <path d="M10 4a1 1 0 0 1 1 1v4h4a1 1 0 1 1 0 2h-4v4a1 1 0 1 1-2 0v-4H5a1 1 0 1 1 0-2h4V5a1 1 0 0 1 1-1Z" />
-              </svg>
-            </summary>
-            <p class="mt-4 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
-          </details>
-        ))
-      }
+                {topic.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Right: the entire FAQ lives here — search + filter + accordion -->
+        <div class="relative rounded-3xl border border-slate-200/80 bg-white/90 p-6 shadow-[0_30px_60px_-30px_rgba(15,23,42,0.25)] backdrop-blur-sm sm:p-7">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Help Center &amp; FAQ</p>
+            </div>
+            <p id="faq-count" class="text-xs font-semibold text-slate-400">{faqs.length} questions</p>
+          </div>
+
+          <div id="faq-list" class="mt-4 divide-y divide-slate-100">
+            {faqs.map((faq, i) => (
+              <div data-faq-item data-id={faq.id} data-category={faq.category} data-state="closed" class="group/item rounded-2xl px-2 -mx-2 transition-all duration-300 ease-out">
+                <button
+                  type="button"
+                  data-faq-trigger
+                  class="flex w-full items-center gap-4 py-4 text-left transition-colors rounded-xl -mx-2 px-2 hover:bg-blue-50/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                >
+                  <span class="flex-none font-mono text-sm font-semibold text-blue-600/70">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span class="flex-1 text-[15px] font-semibold text-[#0B1B33]">
+                    {faq.question}
+                  </span>
+                  <svg
+                    class="h-4 w-4 flex-none text-slate-300 transition-transform duration-300 group-data-[state=open]/item:rotate-90 group-data-[state=open]/item:text-blue-600"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M7.5 4.5 13 10l-5.5 5.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+
+                <div data-faq-panel class="grid transition-[grid-template-rows] duration-300 ease-out" style="grid-template-rows: 0fr;">
+                  <div class="overflow-hidden">
+                    <p class="pb-4 pl-9 pr-6 text-sm leading-relaxed text-slate-600">
+                      {faq.answer}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p id="faq-empty" class="hidden py-3 text-center text-sm font-medium text-slate-500">
+            No exact match — here are all the questions.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Curved wave transition into the rest of the page -->
+    <svg
+      class="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-white sm:h-24"
+      viewBox="0 0 1440 100"
+      preserveAspectRatio="none"
+      fill="currentColor"
+    >
+      <path d="M0 60 C 240 100, 480 0, 720 30 C 960 60, 1200 100, 1440 40 L1440 100 L0 100 Z" />
+    </svg>
+  </div>
+
+  <!-- ============================= SUPPORT CTA ============================= -->
+  <div class="relative mx-auto max-w-4xl px-6 pb-24">
+    <div id="faq-support-contact" class="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-[#0B1B33] via-[#0F2547] to-[#0B1B33] px-8 py-14 text-center shadow-[0_30px_60px_-25px_rgba(11,27,51,0.5)] sm:px-14">
+      <div class="pointer-events-none absolute inset-0 opacity-20" aria-hidden="true">
+        <div class="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-blue-500 blur-3xl"></div>
+        <div class="absolute -right-16 -bottom-16 h-56 w-56 rounded-full bg-emerald-500 blur-3xl"></div>
+      </div>
+
+      <div class="relative">
+        <h2 class="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">Still have questions?</h2>
+        <p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-slate-300 sm:text-base">
+          Our support team is here to help you.
+        </p>
+        <a
+          href="https://t.me/MexoGroup"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-bold text-[#0B1B33] transition-transform hover:-translate-y-0.5 hover:shadow-lg"
+        >
+          Contact Support
+          <svg viewBox="0 0 20 20" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 10h12M11 5l5 5-5 5" />
+          </svg>
+        </a>
+      </div>
     </div>
   </div>
+
+  <!-- ============================= FLOATING SUPPORT BUTTON ============================= -->
+  <a
+    href="https://t.me/MexoGroup"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Contact support on Telegram"
+    class="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#0B1B33] text-white shadow-[0_12px_30px_-8px_rgba(11,27,51,0.6)] transition-all hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-[0_16px_36px_-8px_rgba(37,99,235,0.55)]"
+  >
+    <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L4 20l1-4.2A8.5 8.5 0 1 1 21 12Z" />
+    </svg>
+  </a>
 </section>
 
 <script>
   // Slide-up-and-fade-in animation the first time this section scrolls into view.
-  const animatedEl = document.getElementById("faq-animate");
-  if (animatedEl) {
-    const observer = new IntersectionObserver(
+  const faqAnimatedEl = document.getElementById("faq-animate");
+  if (faqAnimatedEl) {
+    const faqObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            animatedEl.classList.remove("translate-y-10", "opacity-0");
-            animatedEl.classList.add("translate-y-0", "opacity-100");
+            faqAnimatedEl.classList.remove("translate-y-10", "opacity-0");
+            faqAnimatedEl.classList.add("translate-y-0", "opacity-100");
           } else {
-            animatedEl.classList.add("translate-y-10", "opacity-0");
-            animatedEl.classList.remove("translate-y-0", "opacity-100");
+            faqAnimatedEl.classList.add("translate-y-10", "opacity-0");
+            faqAnimatedEl.classList.remove("translate-y-0", "opacity-100");
           }
         });
       },
       { threshold: 0.2 }
     );
-    observer.observe(animatedEl);
+    faqObserver.observe(faqAnimatedEl);
+  }
+
+  // Everything runs against this one panel: search box + popular pills
+  // filter the list; clicking a question opens it inline and closes
+  // whichever other question was open (single-open accordion).
+  const searchInput = document.getElementById("faq-search") as HTMLInputElement | null;
+  const list = document.getElementById("faq-list");
+  const emptyState = document.getElementById("faq-empty");
+  const countLabel = document.getElementById("faq-count");
+  const topicButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("button[data-topic]"));
+
+  if (searchInput && list && emptyState && countLabel) {
+    const items = Array.from(list.querySelectorAll<HTMLElement>("[data-faq-item]"));
+    let activeCategory: string | null = null;
+    let openId: string | null = null;
+
+    function setOpen(item: HTMLElement, open: boolean) {
+      const panel = item.querySelector<HTMLElement>("[data-faq-panel]");
+      item.dataset.state = open ? "open" : "closed";
+      if (panel) panel.style.gridTemplateRows = open ? "1fr" : "0fr";
+    }
+
+    function clearPillStyles() {
+      topicButtons.forEach((b) => b.setAttribute("aria-pressed", "false"));
+    }
+
+    // Search and the popular-topic pills never combine: whichever one the
+    // person is using is the only filter in effect. Nothing is ever hidden —
+    // all 7 questions stay on screen so the person can still browse the rest.
+    // A match is instead "popped out": scaled up slightly, highlighted, and
+    // brought to the front so it's obvious which one(s) matched.
+    const highlightClasses = [
+      "scale-[1.03]",
+      "shadow-lg",
+      "ring-2",
+      "ring-blue-300",
+      "bg-blue-50/60",
+      "z-10",
+      "relative",
+    ];
+
+    function setHighlight(item: HTMLElement, on: boolean) {
+      highlightClasses.forEach((c) => item.classList.toggle(c, on));
+    }
+
+    // A single letter or a partial fragment ("p", "pay") should NOT pop a
+    // card out — only a complete whole word ("payment", "how", "mentorship")
+    // should. So instead of a substring search, split the text into words
+    // and require an exact word match against what's been typed.
+    function hasWholeWordMatch(text: string, query: string): boolean {
+      const words = text.toLowerCase().split(/[^a-z0-9]+/i);
+      return words.includes(query);
+    }
+
+    function applyFilters() {
+      const query = searchInput!.value.trim().toLowerCase();
+      const usingSearch = query !== "";
+      const filtering = usingSearch || !!activeCategory;
+      let matchCount = 0;
+
+      items.forEach((item) => {
+        const category = item.dataset.category ?? "";
+        const question = item.querySelector("[data-faq-trigger] span:nth-of-type(2)")?.textContent ?? "";
+        const answer = item.querySelector("[data-faq-panel] p")?.textContent ?? "";
+
+        const matches = usingSearch
+          ? hasWholeWordMatch(question, query) || hasWholeWordMatch(answer, query)
+          : !activeCategory || activeCategory === category;
+
+        setHighlight(item, filtering && matches);
+        if (matches) matchCount++;
+      });
+
+      emptyState.classList.toggle("hidden", !filtering || matchCount > 0);
+      countLabel.textContent = filtering
+        ? `${matchCount} of ${items.length} questions`
+        : `${items.length} questions`;
+    }
+
+    // Single-open accordion: opening one closes whichever else is open.
+    items.forEach((item) => {
+      const trigger = item.querySelector<HTMLButtonElement>("[data-faq-trigger]");
+      trigger?.addEventListener("click", () => {
+        const id = item.dataset.id ?? null;
+        const isOpen = item.dataset.state === "open";
+
+        if (openId && openId !== id) {
+          const prev = items.find((i) => i.dataset.id === openId);
+          if (prev) setOpen(prev, false);
+        }
+
+        setOpen(item, !isOpen);
+        openId = isOpen ? null : id;
+      });
+    });
+
+    // Popular topic pills: toggle a category filter — only when the
+    // search box is empty, since search always takes priority.
+    topicButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        searchInput!.value = "";
+        const target = btn.dataset.topic ?? null;
+        const turningOn = activeCategory !== target;
+        activeCategory = turningOn ? target : null;
+
+        topicButtons.forEach((b) => {
+          b.setAttribute("aria-pressed", String(turningOn && b === btn));
+        });
+
+        applyFilters();
+      });
+    });
+
+    // Clicking into the search box always resets to the full list of 7,
+    // clearing any active category pill, before the person starts typing.
+    searchInput.addEventListener("focus", () => {
+      if (activeCategory) {
+        activeCategory = null;
+        clearPillStyles();
+        applyFilters();
+      }
+    });
+
+    searchInput.addEventListener("input", applyFilters);
   }
 </script>

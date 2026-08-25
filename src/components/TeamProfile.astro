@@ -26,21 +26,25 @@ const { member } = Astro.props;
 
         <!-- A. Profile Header -->
         <div class="mt-8 flex flex-col items-center gap-8 text-center sm:flex-row sm:items-start sm:text-left">
-          <div class="h-48 w-48 flex-shrink-0 overflow-hidden rounded-3xl shadow-md sm:h-56 sm:w-56">
-            {member.photo ? (
-              <img
-                src={member.photo}
-                alt={member.name}
-                class="h-full w-full object-cover object-top"
-              />
-            ) : (
-              <div
-                class="flex h-full w-full items-center justify-center"
-                style="background: linear-gradient(135deg, #0f172a 0%, #0f172a 60%, rgba(37,99,235,0.3) 100%);"
-              >
-                <span class="text-4xl font-black tracking-tight text-white">{member.initials}</span>
+          <div class="h-48 w-48 flex-shrink-0 rounded-full bg-gradient-to-tr from-blue-500 via-sky-400 to-indigo-500 p-[4px] shadow-md sm:h-56 sm:w-56">
+            <div class="h-full w-full rounded-full bg-white p-[3px]">
+              <div class="h-full w-full overflow-hidden rounded-full">
+                {member.photo ? (
+                  <img
+                    src={member.photo}
+                    alt={member.name}
+                    class="h-full w-full object-cover object-top"
+                  />
+                ) : (
+                  <div
+                    class="flex h-full w-full items-center justify-center"
+                    style="background: linear-gradient(135deg, #0f172a 0%, #0f172a 60%, rgba(37,99,235,0.3) 100%);"
+                  >
+                    <span class="text-4xl font-black tracking-tight text-white">{member.initials}</span>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
 
           <div>
