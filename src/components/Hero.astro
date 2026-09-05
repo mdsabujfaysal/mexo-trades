@@ -95,25 +95,55 @@
       <div class="hero__right">
         <div class="hero__right-shadow" aria-hidden="true"></div>
 
-        <p class="hero__pretext" data-reveal="left" style="--d:520ms">
-          Discover The Mexo Mentorship Before You Join.
-        </p>
+        <div class="hero__free-card" data-reveal="up" style="--d:620ms">
+          <h3 class="hero__free-card-heading">
+            <span class="hero__free-card-heading-accent">Join Free</span>
+            <span class="hero__free-card-heading-italic">Mentorship</span>
+          </h3>
 
-        <div class="hero__video" data-reveal="up" style="--d:620ms">
-          <iframe
-            class="hero__video-frame"
-            src="https://www.youtube.com/embed/aZHrunlE8ME"
-            title="MEXO TRADES"
-            loading="lazy"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+          <p class="hero__free-card-feature">
+            <svg class="hero__free-card-check" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+              <circle cx="10" cy="10" r="10" fill="#005DFF" />
+              <path d="M6 10.3 8.5 12.8 14 7.3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            10 Days Free Access
+          </p>
+
+          <a href="/free-registration" class="hero__free-card-cta">
+            Register Free
+            <span class="hero__free-card-cta-icon-wrap">
+              <svg class="hero__free-card-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0-6-6m6 6-6 6" />
+              </svg>
+            </span>
+          </a>
+
+          <p class="hero__free-card-footnote">
+            <svg class="hero__free-card-lock" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+              <rect x="4" y="8.5" width="12" height="8" rx="1.6" stroke="currentColor" stroke-width="1.3" />
+              <path d="M6.5 8.5V6a3.5 3.5 0 0 1 7 0v2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+            </svg>
+            Secure &amp; Hassle Free
+          </p>
         </div>
       </div>
 
     </div>
   </div>
+
+  <!-- Curved white edge with a blue-to-purple gradient line, so the hero
+       rolls into the white section below instead of a hard straight cut. -->
+  <svg class="hero__curve" viewBox="0 0 1440 110" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="heroCurveGradient" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#38bdf8" />
+        <stop offset="55%" stop-color="#2563eb" />
+        <stop offset="100%" stop-color="#7c3aed" />
+      </linearGradient>
+    </defs>
+    <path id="heroCurveFill" d="M0,110 C420,110 1020,110 1440,110 L1440,110 L0,110 Z" fill="#ffffff" />
+    <path id="heroCurveStroke" d="M0,110 C420,110 1020,110 1440,110" fill="none" stroke="url(#heroCurveGradient)" stroke-width="6" stroke-linecap="round" />
+  </svg>
 </section>
 
 <style>
@@ -367,6 +397,9 @@
 
   /* ---- CTA ---- */
   .hero__cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -382,10 +415,30 @@
     transition: transform 0.35s ease, box-shadow 0.35s ease;
   }
 
+  /* Same shine-sweep as Register Free originally had — a light diagonal
+     sweep that plays once each time the mouse moves over the button. */
+  .hero__cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.45) 40%, transparent 60%);
+    transform: translateX(-120%);
+  }
+
+  .hero__cta:hover::before {
+    animation: heroCtaShineSweep 2.2s ease;
+  }
+
+  .hero__cta > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .hero__cta:hover,
   .hero__cta:focus-visible {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 22px 46px -10px rgba(0, 93, 255, 0.65);
+    transform: translateY(-3px) scale(1.08);
+    box-shadow: 0 26px 54px -10px rgba(0, 93, 255, 0.75);
   }
 
   .hero__cta:focus-visible {
@@ -398,23 +451,17 @@
     height: 1.15rem;
   }
 
-  /* ---- Right column text ---- */
-  .hero__pretext {
-    margin: 0;
-    max-width: 22rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    line-height: 1.5;
-    color: var(--text-2);
-  }
-
-  /* ---- Video card ---- */
-  .hero__video {
+  /* ---- Free-access card (same footprint as the old video card) ---- */
+  .hero__free-card {
     width: 100%;
-    max-width: 22rem;
-    aspect-ratio: 16 / 9;
+    max-width: 32rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+    padding: 1.75rem 1.25rem 1.5rem;
     border-radius: 1.1rem;
-    overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(18px);
@@ -422,11 +469,152 @@
     box-shadow: 0 30px 70px -24px rgba(0, 0, 0, 0.75);
   }
 
-  .hero__video-frame {
+  .hero__free-card-heading {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text);
+  }
+
+  .hero__free-card-heading-accent {
+    background: linear-gradient(90deg, var(--accent-2), var(--highlight));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero__free-card-heading-italic {
+    font-style: normal;
+    font-family: inherit;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .hero__free-card-feature {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    gap: 0.5rem;
+    padding: 0.55rem 1.05rem;
+    border-radius: 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .hero__free-card-check {
     display: block;
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    overflow: visible;
+  }
+
+  .hero__free-card-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     width: 100%;
-    height: 100%;
-    border: 0;
+    padding: 0.7rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+    background: linear-gradient(90deg, var(--accent) 0%, #7c3aed 100%);
+    box-shadow: 0 18px 40px -12px rgba(0, 93, 255, 0.55);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  /* Same shine-sweep used on the site's primary buttons (Free Registration
+     Flow's .shine-btn) — but here it plays continuously on a loop, with
+     or without the mouse over it, instead of only firing on hover. */
+  .hero__free-card-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.45) 40%, transparent 60%);
+    transform: translateX(-120%);
+  }
+
+  /* Only plays once JS adds this class — after the mentor portrait has
+     finished rising into place (see onPortraitSettled in the script
+     below), rather than from page load. */
+  .hero__free-card-cta.shine-active::before {
+    animation: heroCtaShineSweep 2.8s ease-in-out infinite;
+  }
+
+  @keyframes heroCtaShineSweep {
+    0% {
+      transform: translateX(-120%);
+    }
+    21% {
+      transform: translateX(120%);
+    }
+    100% {
+      transform: translateX(120%);
+    }
+  }
+
+  .hero__free-card-cta > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__free-card-cta:hover,
+  .hero__free-card-cta:focus-visible {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 22px 46px -10px rgba(0, 93, 255, 0.65);
+  }
+
+  .hero__free-card-cta:focus-visible {
+    outline: 2px solid var(--highlight);
+    outline-offset: 3px;
+  }
+
+  .hero__free-card-cta-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+
+  .hero__free-card-cta-icon {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+    display: block;
+  }
+
+  .hero__free-card-footnote {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    color: var(--text-2);
+    opacity: 0.8;
+  }
+
+  .hero__free-card-lock {
+    width: 0.85rem;
+    height: 0.85rem;
+    flex: none;
   }
 
   /* ==========================================================
@@ -601,9 +789,9 @@
     }
 
     .hero__right {
-      max-width: 20rem;
+      max-width: 28rem;
       align-self: center;
-      transform: translateY(-2.5rem);
+      transform: translate(-1rem, -2rem);
     }
   }
 
@@ -625,9 +813,29 @@
     }
 
     .hero__right {
-      max-width: 22rem;
-      transform: translateY(-3rem);
+      max-width: 32rem;
+      transform: translate(-1.25rem, -2.25rem);
     }
+  }
+
+  /* ==========================================================
+     BOTTOM CURVE — a soft arc across the full width of the hero's
+     bottom edge, traced with a blue-to-purple gradient line, so the
+     dark hero rolls into the white section below instead of ending
+     on a hard straight edge. Starts perfectly flat (invisible, flush
+     with the section boundary) and its own two paths are morphed by
+     script — not faded — into the curved shape as the user scrolls,
+     so it visibly rises up from the left and right edges inward.
+     ========================================================== */
+  .hero__curve {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    width: 100%;
+    height: clamp(3.5rem, 7vw, 6rem);
+    z-index: 5;
+    pointer-events: none;
   }
 </style>
 
@@ -670,6 +878,8 @@
     if (portraitSettled) return;
     portraitSettled = true;
     window.setTimeout(revealBadges, 900);
+    // Register Free's shine sweep starts only now, not on page load.
+    document.querySelector(".hero__free-card-cta")?.classList.add("shine-active");
   }
 
   const portraitImg = document.getElementById("hero-portrait-img");
@@ -716,5 +926,38 @@
       { threshold: 0.2 }
     );
     revealEls.forEach((el) => revealObserver.observe(el));
+  }
+
+  // Bottom curve — starts perfectly flat (flush with the section boundary,
+  // effectively invisible) and is morphed — not faded — into the arc shape
+  // as the user scrolls down, so it reads as the left and right edges
+  // rising up into a curve rather than a plain fade-in. Scrolling back up
+  // reverses the morph the same way.
+  const heroCurveFill = document.getElementById("heroCurveFill");
+  const heroCurveStroke = document.getElementById("heroCurveStroke");
+
+  if (heroCurveFill && heroCurveStroke) {
+    const CURVE_EDGE_FLAT = 110; // endpoints' y when fully flat (hidden)
+    const CURVE_EDGE_FULL = 10; // endpoints' y when fully curved
+    const CURVE_MID_FLAT = 110; // control points' y when fully flat (hidden)
+    const CURVE_MID_FULL = 120; // control points' y when fully curved
+    const CURVE_SCROLL_RANGE = 320; // px of scroll over which the curve fully forms
+
+    const smoothstep = (t) => t * t * (3 - 2 * t);
+
+    const updateHeroCurve = () => {
+      const raw = Math.min(1, Math.max(0, window.scrollY / CURVE_SCROLL_RANGE));
+      const t = smoothstep(raw);
+
+      const edgeY = CURVE_EDGE_FLAT + (CURVE_EDGE_FULL - CURVE_EDGE_FLAT) * t;
+      const midY = CURVE_MID_FLAT + (CURVE_MID_FULL - CURVE_MID_FLAT) * t;
+      const archD = `M0,${edgeY} C420,${midY} 1020,${midY} 1440,${edgeY}`;
+
+      heroCurveFill.setAttribute("d", `${archD} L1440,110 L0,110 Z`);
+      heroCurveStroke.setAttribute("d", archD);
+    };
+
+    updateHeroCurve();
+    window.addEventListener("scroll", updateHeroCurve, { passive: true });
   }
 </script>
